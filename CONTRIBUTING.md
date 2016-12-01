@@ -1,8 +1,4 @@
 # Contributing
-# Contributing
-​
-## General Workflow
-
 1. Clone down the master directly (do not fork):
 
   -> git clone masterURL your directory
