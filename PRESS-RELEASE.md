@@ -23,27 +23,27 @@ Once the project moves into development, the press release can be used as a touc
   > Tranforming loneliness and boredom into a time to remember with friends, old and new. 
 
 ## Summary ##
-  > 
-  > Give a summary of the product and the benefit. Assume the reader will not read anything else so make this paragraph good.
+  > The product allows you to create an event on a map, create a description for that event, and let your friends see the event (and possibly attend). Want to just hangout at a coffee shop for an hour? Post an event on your map, and just show up!
+
 
 ## Problem ##
   > Are you bored and want to do something with friends, but don't want to jump through hoops coordinating simple activities?
-  > Describe the problem your product solves.
 
 ## Solution ##
   > OpenInvite provides an easy way to do that. Create an event all of your friends can see and show up to - don't worry about excluding or missing anyone, because everyone is invited to an open invite. 
-  > Describe how your product elegantly solves the problem.
 
 ## Quote from You ##
-  > A quote from a spokesperson in your company.
+  > "People get bored, it's what people do. But no one likes being bored, you know? So why not do what you want to do and have people show up? Then you won't have the hassle of inviting everyone, possibly forgetting someone, having a great time then the other person hears about it, and you lose a friend. Basically we are saving relationships."
+   - OpenInvite Co-founder
 
 ## How to Get Started ##
   > To get started all you have to do is create an account, and start creating events - don't be afraid to be bored one more minute.
-  > Describe how easy it is to get started.
+ ////// PUT HOW TO GET STARTED HERE /////////
 
 ## Customer Quote ##
   > "Holy **************** this is a great app..."
   > Provide a quote from a hypothetical customer that describes how they experienced the benefit.
 
 ## Closing and Call to Action ##
+  > Don't be afraid to try it. Sign up, create an event and start doing more with your life. Have a favorite spot you like to hangout at? Drop an open invite on the map and get started now!
   > Wrap it up and give pointers where the reader should go next.
