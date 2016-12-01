@@ -38,7 +38,11 @@ When everything checks out, reviewer merges pull request to master.
 
 When a pull request is merged and closed, delete feat3 branch.
 
-## Original - General Workflow
+
+
+
+
+## Original - General Workflow - for reference
 
 1. Fork the repo
 1. Cut a namespaced feature branch from master
