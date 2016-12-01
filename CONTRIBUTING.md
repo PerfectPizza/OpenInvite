@@ -1,30 +1,30 @@
 # Contributing
 1. Clone down the master directly (do not fork):
-
-  -> git clone masterURL your directory
-
+```
+  git clone masterURL your directory
+```
 2. Create a new feature branch from master, If it's a new feature, name the branch "feat#". If it's a bug fix, name the branch "bug#". # should be the associated issue number on the GitHub repo.
-
-  -> git checkout -b feat3  
-
+```
+  git checkout -b feat3  
+```
   OR
-
-  -> git checkout -b bug11
-
+```
+  git checkout -b bug11
+```
 3. Make changes and commit to your feature branch.
-
-  -> git add -p
-
+```
+  git add -p
+```
 4. Sync up with latest master before pushing to remote feature branch:
-
-  -> git pull --rebase origin master
-
+```
+  git pull --rebase origin master
+```
 5. Fix any merge conflicts if necessary.
 
 6. Push changes to remote feature branch:
-
-  -> git push origin feat3
-
+```
+  git push origin feat3
+```
 7. Generate pull request:
 
   -> base: master
