@@ -6,7 +6,7 @@
 
   - __Product Owner__: Ari Leo Frankel
   - __Scrum Master__: Henry Hedges
-  - __Development Team Members__: Ross Topol, Kelly John Braun, Mitchell Dean
+  - __Development Team Members__: Ross Topol, Kelly John Braun, Mitchell Deane
 
 ## Table of Contents
 
