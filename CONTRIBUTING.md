@@ -3,13 +3,15 @@
 ```
   git clone masterURL your directory
 ```
-2. Create a new feature branch from master, If it's a new feature, name the branch "feat#". If it's a bug fix, name the branch "bug#". # should be the associated issue number on the GitHub repo.
+2. Create a new feature **branch** from **master**
+  - If it's a *new feature*, name the branch "feat/feature_name". 
+  - If it's a *bug fix*, name the branch "bug/#bug_number". (# should be the associated issue number on the GitHub repo.)
 ```
-  git checkout -b feat3  
+  git checkout -b feat/map3  
 ```
   OR
 ```
-  git checkout -b bug11
+  git checkout -b bug/#11
 ```
 3. Make changes and commit to your feature branch.
 ```
