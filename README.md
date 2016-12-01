@@ -1,16 +1,16 @@
-# Space Kitten
+# PerfectPizza
 
-> Pithy project description
+> Displacing boredom one event at a time.
 
 ## Team
 
-  - __Product Owner__: space cat
-  - __Scrum Master__: space cat
-  - __Development Team Members__: space cat, space cat
+  - __Product Owner__: Ari Leo Frankel
+  - __Scrum Master__: Henry Hedges
+  - __Development Team Members__: Ross Topol, Kelly John Braun, Mitchell Dean
 
 ## Table of Contents
 
-1. [Usage](#Usage)
+1. [Usage]
 1. [Requirements](#requirements)
 1. [Development](#development)
     1. [Installing Dependencies](#installing-dependencies)
@@ -25,10 +25,9 @@
 ## Requirements
 
 - Node 0.10.x
-- Redis 2.6.x
-- Postgresql 9.1.x
-- etc
-- etc
+- React
+- MongoDB
+- Express
 
 ## Development
 
