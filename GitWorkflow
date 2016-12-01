@@ -8,7 +8,7 @@
 ​
 2. Create a new feature branch from master, If it's a new feature, name the branch "feat#". If it's a bug fix, name the branch "bug#". # should be the associated issue number on the GitHub repo.
 ​
-  -> git checkout -b feat3
+  -> git checkout -b feat3  
 ​
   OR
 
