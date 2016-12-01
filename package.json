@@ -1,0 +1,23 @@
+{
+  "name": "perfectpizza",
+  "version": "1.0.0",
+  "description": "open invite is a event meet up app",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs",
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PerfectPizza/PerfectPizza.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/PerfectPizza/PerfectPizza/issues"
+  },
+  "homepage": "https://github.com/PerfectPizza/PerfectPizza#readme"
+}
