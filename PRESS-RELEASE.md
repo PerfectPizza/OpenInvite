@@ -17,27 +17,32 @@ Once the project moves into development, the press release can be used as a touc
  -->
  
 ## Heading ##
-  > Name the product in a way the reader (i.e. your target customers) will understand.
+  > OpenInvite
 
 ## Sub-Heading ##
-  > Describe who the market for the product is and what benefit they get. One sentence only underneath the title.
+  > Tranforming loneliness and boredom into a time to remember with friends, old and new. 
 
 ## Summary ##
+  > 
   > Give a summary of the product and the benefit. Assume the reader will not read anything else so make this paragraph good.
 
 ## Problem ##
+  > Are you bored and want to do something with friends, but don't want to jump through hoops coordinating simple activities?
   > Describe the problem your product solves.
 
 ## Solution ##
+  > OpenInvite provides an easy way to do that. Create an event all of your friends can see and show up to - don't worry about excluding or missing anyone, because everyone is invited to an open invite. 
   > Describe how your product elegantly solves the problem.
 
 ## Quote from You ##
   > A quote from a spokesperson in your company.
 
 ## How to Get Started ##
+  > To get started all you have to do is create an account, and start creating events - don't be afraid to be bored one more minute.
   > Describe how easy it is to get started.
 
 ## Customer Quote ##
+  > "Holy **************** this is a great app..."
   > Provide a quote from a hypothetical customer that describes how they experienced the benefit.
 
 ## Closing and Call to Action ##
