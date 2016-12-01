@@ -25,7 +25,7 @@ Fix any merge conflicts if necessary.
 
 Push changes to remote feature branch:
 ```
-  git push origin feat3
+  git push origin feat/map3
 ```
 Generate pull request:
 
