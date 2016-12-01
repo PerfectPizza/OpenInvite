@@ -1,9 +1,9 @@
 # Contributing
-1. Clone down the master directly (do not fork):
+Clone down the master directly (do not fork):
 ```
   git clone masterURL your directory
 ```
-2. Create a new feature **branch** from **master**
+Create a new feature **branch** from **master**
   - If it's a *new feature*, name the branch "feat/feature_name". 
   - If it's a *bug fix*, name the branch "bug/#bug_number". (# should be the associated issue number on the GitHub repo.)
 ```
@@ -13,32 +13,32 @@
 ```
   git checkout -b bug/#11
 ```
-3. Make changes and commit to your feature branch.
+Make changes and commit to your feature branch.
 ```
   git add -p
 ```
-4. Sync up with latest master before pushing to remote feature branch:
+Sync up with latest master before pushing to remote feature branch:
 ```
   git pull --rebase origin master
 ```
-5. Fix any merge conflicts if necessary.
+Fix any merge conflicts if necessary.
 
-6. Push changes to remote feature branch:
+Push changes to remote feature branch:
 ```
   git push origin feat3
 ```
-7. Generate pull request:
+Generate pull request:
 
   -> base: master
   -> compare: feat3
 
-8. Fix any issues highlighted by reviewer if necessary.
+Fix any issues highlighted by reviewer if necessary.
 
-9. When everything checks out, reviewer merges pull request to master.
+When everything checks out, reviewer merges pull request to master.
 
-10. When a pull request is merged and closed, delete feat3 branch.
+When a pull request is merged and closed, delete feat3 branch.
 
-## General Workflow
+## Original - General Workflow
 
 1. Fork the repo
 1. Cut a namespaced feature branch from master
