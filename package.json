@@ -21,6 +21,8 @@
   },
   "homepage": "https://github.com/PerfectPizza/PerfectPizza#readme",
   "dependencies": {
-    "browserify-middleware": "^7.1.0"
+    "browserify-middleware": "^7.1.0",
+    "knex": "^0.12.6",
+    "mysql": "^2.12.0"
   }
 }
