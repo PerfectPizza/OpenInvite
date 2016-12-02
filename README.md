@@ -24,9 +24,9 @@
 
 ## Requirements
 
-- Node 0.10.x
-- React
-- MongoDB
+- Node
+- ReactBootstrap
+- PostGres
 - Express
 - browserify-middleware
 
