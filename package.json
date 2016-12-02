@@ -19,5 +19,8 @@
   "bugs": {
     "url": "https://github.com/PerfectPizza/PerfectPizza/issues"
   },
-  "homepage": "https://github.com/PerfectPizza/PerfectPizza#readme"
+  "homepage": "https://github.com/PerfectPizza/PerfectPizza#readme",
+  "dependencies": {
+    "browserify-middleware": "^7.1.0"
+  }
 }
