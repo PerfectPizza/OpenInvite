@@ -3,9 +3,13 @@
 module.exports = {
 
   development: {
-    client: 'mySQL',
+    client: 'mysql',
     connection: {
-      filename: './dev.mySQL'
+      host: '127.0.0.1',
+      user: 'root',
+      password: '',
+      database: 'db',
+      charset: 'utf8'
     }
-  }
+  },
 };
