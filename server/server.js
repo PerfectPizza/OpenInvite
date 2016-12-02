@@ -1,6 +1,6 @@
  var express = require('express');
  var browserify = require('browserify-middleware');
- var path = require('path')
+ var path = require('path');
  var app = express();
 
 
@@ -11,7 +11,11 @@
 // Still need a database conneciton 
 
 
- app.get('/', browserify(path.join(__dirname, '..', '/client/index.js'));
+ app.get('/', browserify(path.join(__dirname, '..', '/client/index.js')));
+
+ app.get('/facebookLogin', function(req, res){
+    res.sendFile(path.join(__dirname, '../','facebookLogin.html'));
+ })
 
  app.post("/events/new", function(req, res) { 
  	//knex insert into table events new
