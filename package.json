@@ -19,5 +19,9 @@
   "bugs": {
     "url": "https://github.com/PerfectPizza/PerfectPizza/issues"
   },
-  "homepage": "https://github.com/PerfectPizza/PerfectPizza#readme"
+  "homepage": "https://github.com/PerfectPizza/PerfectPizza#readme",
+  "dependencies": {
+    "knex": "^0.12.6",
+    "mysql": "^2.12.0"
+  }
 }

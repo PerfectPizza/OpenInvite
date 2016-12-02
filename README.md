@@ -26,7 +26,7 @@
 
 - Node 0.10.x
 - React
-- MongoDB
+- MySQL
 - Express
 
 ## Development
