@@ -28,6 +28,7 @@
 - React
 - MongoDB
 - Express
+- browserify-middleware
 
 ## Development
 
