@@ -26,7 +26,7 @@ exports.up = (knex, Promise) => Promise.all([
     table.foreign('user_id').references('id').inTable('users'); //foreign key with users id
     table.foreign('event_id').references('id').inTable('events'); //foreign key with events id
   })
-]};
+]);
 
 exports.down = (knex, Promise) => Promise.all([
   knex.schema.dropTableIfExists('users'),   //might need to deal with dropping foreign keys first

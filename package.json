@@ -8,27 +8,38 @@
     "test": "test"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "babel src -d lib",
+    "start": "live-server client/index.html | babel . --out-dir compiled --presets=es2015,react --ignore=node_modules,compiled --source-maps inline -w"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/PerfectPizza/PerfectPizza.git"
   },
-  "author": "",
+  "author": "PerfectPizza",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/PerfectPizza/PerfectPizza/issues"
   },
   "homepage": "https://github.com/PerfectPizza/PerfectPizza#readme",
   "dependencies": {
+    "babel-cli": "^6.18.0",
+    "babel-preset-es2015": "^6.6.0",
+    "babel-preset-react": "^6.5.0",
+    "babel-watch": "^2.0.3",
     "browserify-middleware": "^7.1.0",
-<<<<<<< 264aaadadd52ccffc46e05d9f8465c87c089290f
-    "knex": "^0.12.6",
-    "mysql": "^2.12.0"
-=======
     "express": "^4.14.0",
     "fs": "0.0.1-security",
+    "jquery": "^3.1.1",
+    "knex": "^0.12.6",
+    "live-server": "^1.1.0",
+    "mysql": "^2.12.0",
+    "react": "^15.4.1",
+    "react-bootstrap": "^0.30.7",
+    "react-dom": "^15.4.1",
     "url": "^0.11.0"
->>>>>>> test facebook login route added
+  },
+  "devDependencies": {
+    "babel-cli": "^6.18.0"
   }
 }
