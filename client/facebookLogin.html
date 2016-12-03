@@ -6,44 +6,30 @@
 
 <div id="fb-root"></div>
 
-<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.1.1.min.js"></script>
-
 <script>
-    var appId = '1128845777235850';
-    var siteRoot = 'arileofrankel.com';
+    var appId = '1128845777235850'; //your app id here
+    var siteRoot = 'localhost:5000'; //your site root here
 
   window.fbAsyncInit = function() {
     FB.init({
-      appId      : '1128845777235850',
-      version    : 'v2.8',
-      channelURL : '//'+'arileofrankel.com'+'/static/facebookAuthPage2.html', 
-      // Channel File
-
+      appId      : '1128845777235850', //your app id here
+      version    : 'v2.8', //leave this
+      channelURL : '//localhost:5000', // Channel File
       status     : true,
       cookie     : true,
       oauth      : true,
       xfbml      : true
     });
-    
-    // FB.ui({
-    //   method: 'share_open_graph',
-    //   action_type: 'og.likes',
-    //   action_properties: JSON.stringify({
-    //     object:'https://developers.facebook.com/docs/',
-    //   })
-    //   }, function(response){
-    //   // Debug response (optional)
-    //   console.log(response);
-    // });
 
-    FB.getLoginStatus(function(response) {
-      if (response.status === 'connected') {
+    FB.getLoginStatus(function(response) { //response is an object that contains user information, including a token
+      if (response.status === 'connected') { //user is logged in
         console.log('connected')
-        FB.api(
-          '/me',
+        FB.api( //hit the facebook API for user information
+          '/me', //a special route on the API that will use the logged in user's token
           'GET',
-          {"fields":"id,name,friends"},
-          function(response) {
+          {"fields":"id,name,friends,email"}, //fields to query on API.
+          //See https://developers.facebook.com/tools/explorer/145634995501895/?method=GET&path=me%3Ffields%3Did%2Cname%2Cemail%2Cfriends&version=v2.8
+          function(response) { //your user's data
             console.log(response);
           }
         );
@@ -52,31 +38,20 @@
         FB.login();
       }
     });
-  
-
   };
 
 
-(function(d, s, id) {
-  var js, fjs = d.getElementsByTagName(s)[0];
-  if (d.getElementById(id)) return;
-  js = d.createElement(s); js.id = id;
-  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.8&appId=1128845777235850";
-  fjs.parentNode.insertBefore(js, fjs);
+(function(d, s, id) { //see line 51 for args. This function is invoked immediately
+  var js, fjs = d.getElementsByTagName(s)[0]; //fjs -> first script in document
+  if (d.getElementById(id)) return; //do nothing if a script with id facebook-jssdk
+  js = d.createElement(s); js.id = id; //create a script with that id otherwise and give it this script:
+  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.8&appId=1128845777235850"; //facebook API cdn
+  fjs.parentNode.insertBefore(js, fjs); //put it above any other scripts
 }(document, 'script', 'facebook-jssdk'));
-
-// window.loadfriends = 
-//   $.get( "graph.facebook.com/me/friends", function( data ) {
-//   $( ".friends" ).html( data );
-//   alert( "Load was performed." );
-// });
-
 
 </script>
 
-<div class="friends" onclick=window.listfriends()></div>
-
-<div class="fb-login-button" data-max-rows="4" data-size="medium" data-show-faces="true" data-auto-logout-link="true"></div>
+<div class="fb-login-button" data-max-rows="4" data-size="medium" data-show-faces="true" data-auto-logout-link="true"></div> <!--facebook button-->
 
 <div
   class="fb-like"
@@ -85,6 +60,7 @@
   data-show-faces="true">
 </div>
 
+<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.1.1.min.js"></script>
 
 </body>
 </html>
