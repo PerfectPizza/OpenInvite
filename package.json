@@ -22,13 +22,10 @@
   "homepage": "https://github.com/PerfectPizza/PerfectPizza#readme",
   "dependencies": {
     "browserify-middleware": "^7.1.0",
-<<<<<<< 264aaadadd52ccffc46e05d9f8465c87c089290f
     "knex": "^0.12.6",
-    "mysql": "^2.12.0"
-=======
+    "mysql": "^2.12.0",
     "express": "^4.14.0",
     "fs": "0.0.1-security",
     "url": "^0.11.0"
->>>>>>> test facebook login route added
   }
 }
