@@ -11,10 +11,15 @@ var knexfile = require('../knexfile.js');
 // Still need a database conneciton
 var knex = require('knex')(knexfile);
 
- app.get('/', browserify(path.join(__dirname, '..', '/client/index.js')));
+ app.get('/', function(req,res){
+   //browserify(path.join(__dirname, '..', '/client/index.js'))
+   console.log("this route got hit.")
+    res.sendFile(path.join(__dirname, '../client/index.html'));
+   });
 
  app.get('/facebookLogin', function(req, res){
-    res.sendFile(path.join(__dirname, '../','facebookLogin.html'));
+   console.log("this route got hit.")
+    res.sendFile(path.join(__dirname, '../client/facebookLogin.html'));
  })
 
  app.post("/events/new", function(req, res) {
