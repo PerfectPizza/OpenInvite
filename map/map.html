@@ -47,40 +47,7 @@
         <div class='event'>
             <h3>Event</h3></div>
     </div>
-    <script>
-    function initMap() {
-        navigator.geolocation.getCurrentPosition((locObj) => {
-            var myLatlng = new google.maps.LatLng(locObj.coords.latitude, locObj.coords.longitude);
-            var mapOptions = {
-                zoom: 9,
-                center: myLatlng
-            }
-            var map = new google.maps.Map(document.getElementById("map"), mapOptions);
-
-            var marker = new google.maps.Marker({
-                position: myLatlng,
-                title: "OpenInvite",
-                map: map
-            });
-
-            map.addListener('click', function(e) {
-                placeMarkerAndPanTo(e.latLng, map);
-            });
-
-
-            function placeMarkerAndPanTo(latLng, map) {
-                var marker = new google.maps.Marker({
-                    position: latLng,
-                    map: map
-                });
-                // map.panTo(latLng);
-            }
-
-        })
-    }
-    </script>
-    <script src="dummyMapData.js"></script>
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=ADD_API_KEY_HERE-dwII&callback=initMap">
+    <script src="map.js">
     </script>
 </body>
 
