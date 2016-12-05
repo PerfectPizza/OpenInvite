@@ -24,6 +24,7 @@ var knex = require('knex')({
 app.use(express.static(path.join(__dirname, '/../client/')))
 app.use (bodyParser.json());
 
+
  app.get('/', function(req,res){
    //browserify(path.join(__dirname, '..', '/client/index.js'))
    console.log("this route got hit.")
@@ -36,38 +37,71 @@ app.use (bodyParser.json());
  })
 
  app.post("/user/login", function(req, res) {
-   // console.log('request.body',req.body)
+
+  var now = new Date().toISOString().slice(0, 19).replace('T', ' ');
+  var fourtyEightHours = new Date(+new Date + 1.728e8).toISOString().slice(0, 19).replace('T', ' ');
+
    knex.select('*').from('users').where('id', req.body.id)
    .then(function(data){
-    if(data.length > 0){
-      knex.insert(req.body).into('users')
-      res.send('Welcome to open invite')
-    }
-    else{
-      res.send('Welcome back')
-    }
+    console.log('hello data', data.length)
+    if(data.length === 0){
+      knex.insert(req.body).into('users').then(console.log('new user added!'))
+      }
    })
+   .then(function(){
+    knex.select('*').from('events').where('end_time', '>', now).andWhere('end_time', '<', fourtyEightHours)
+    .then(function(data){
+      res.json(data);}
+      )})
   });
 
  
- //app.post attend event 
- //app.post get all event attendees 
- //app.post remove user from event attendance 
- //app.post update event
- //
- app.post("/events/new", function(req, res) {
- 	//knex insert into table events new
- 	//res.send back list of
+// app.post("/events/rsvp", function(req, res) {
+//   knex.insert(req.body).into('events_users')
+//   .then(res.send('rsvped to event'))
+//   });
+
+// app.post("/events/attendance", function(req, res) {
+//   knex.select('*').from('events_users').where('event_id', req.body)
+//   .then(res.send('rsvped to event'))
+//   });
+
+// app.post("/events/unrsvp", function(req, res) {
+//   knex('events_users').where(req.body).del()
+//   .then(res.send('rsvped to event'))
+//   }); 
+ 
+app.post("/events/update", function(req, res){
+  console.log("request body", req.body);
+  knex('events').where('id', req.body.id).update(req.body)
+  .then(res.send('updated event'))
   });
 
-  app.get("/events", function(req, res) {
-  	// knex.select('*').from('events').where('start_time', '>=',)
-   //  .then(function(){res.send('hello')})
-   var now = new Date().toISOString().slice(0, 19).replace('T', ' ');
-   var fourtyEightHours = new Date(+new Date + 12096e5).toISOString().slice(0, 19).replace('T', ' ');
-   //select all from events where endtime > now and endtime < fourtyeighthours
-   // new query to events_users to find everyone attending event 
+ app.post("/events/new", function(req, res) {
+  //will send back new object with event id
+  knex.insert(req.body).into('events').returning('id')
+  .then(function(data){
+    console.log('new row', data);
+    res.json(data);
+    })
+
   });
+
+ app.post("/events/remove", function(req, res) {
+  knex('events').where('id', req.body.id).del()
+  .then(res.send('deleted event!'))
+  });
+
+  // app.get("/events", function(req, res) {
+  	
+  // var now = new Date().toISOString().slice(0, 19).replace('T', ' ');
+  // var fourtyEightHours = new Date(+new Date + 1.728e8).toISOString().slice(0, 19).replace('T', ' ');
+
+  //  knex.select('*').from('events').where('end_time', '>', now).andWhere('end_time', '<', fourtyEightHours)
+  //   .then(function(data){
+  //     res.json(data);})
+  //  // TODO new query to events_users to find everyone attending event 
+  // });
 
  var port = process.env.PORT || 5000;
  app.listen(port, function() {

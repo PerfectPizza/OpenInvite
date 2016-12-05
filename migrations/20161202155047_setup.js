@@ -10,18 +10,20 @@ exports.up = (knex, Promise) => Promise.all([
   knex.schema.createTableIfNotExists('events', table => {
     //table.increments('id').primary();  //replace increments with uuid
     //table.uuid('id'); //.primary();
-    table.uuid('id');
+    table.increments('id');
     table.timestamp('created_at');
     table.string('address');
-    table.string('latitude');
-    table.string('longitude'); //string?
+    table.integer('latitude');
+    table.integer('longitude'); //string?
     table.string('location_name');
     table.dateTime('start_time');
     table.dateTime('end_time');
     table.string('creator_id'); //.references('id').inTable('users');  //foreign key with user id
-    table.string('description');
+    table.text('description');
     table.string('title');
+    table.integer('cap');
   }),
+  
   knex.schema.createTableIfNotExists('events_users', table => {
     //table.increments('id').primary(); //replace increments with uuid
     //table.uuid('id'); //.primary();
