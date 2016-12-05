@@ -11,12 +11,13 @@ exports.up = (knex, Promise) => Promise.all([
     //table.increments('id').primary();  //replace increments with uuid
     //table.uuid('id'); //.primary();
     table.uuid('id');
+    table.timestamp('created_at');
     table.string('address');
     table.string('latitude');
     table.string('longitude'); //string?
     table.string('location_name');
-    table.integer('start_time');
-    table.integer('end_time');
+    table.dateTime('start_time');
+    table.dateTime('end_time');
     table.string('creator_id'); //.references('id').inTable('users');  //foreign key with user id
     table.string('description');
     table.string('title');
