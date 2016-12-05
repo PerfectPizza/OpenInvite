@@ -1,2 +1,2 @@
-// ReactDOM.render(<App key="MainApp"/>,document.getElementById('app'))
+//ReactDOM.render(<App key="MainApp"/>,document.getElementById('app'))
 
