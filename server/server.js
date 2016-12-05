@@ -11,6 +11,9 @@ var knexfile = require('../knexfile.js');
 // Still need a database conneciton
 var knex = require('knex')(knexfile);
 
+// code from the express.static docs
+// app.use('/static', express.static(path.join(__dirname, '../client/assets/')))
+
  app.get('/', function(req,res){
    //browserify(path.join(__dirname, '..', '/client/index.js'))
    console.log("this route got hit.")
