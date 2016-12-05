@@ -2,7 +2,10 @@
 var dummyData = [
   {id:1, host: 'me', description:"cat party", start_time:"8:00PM", end_time:"900PM", address:"123 fakes street", locationName:"jakes house"},
   {id:2 ,host: 'me2', description:"cat party2", start_time:"6:00PM", end_time:"8:30PM", address:"123344 Jim Doorrr", locationName: "Hat Parlor"},
-  {id:3,host: 'me3', description:"cat party3", start_time:"4:00PM", end_time:"10:00PM", address:"83834 Barn Ave.", locationName: "The park"}
+  {id:3,host: 'me3', description:"cat party3", start_time:"4:00PM", end_time:"10:00PM", address:"83834 Barn Ave.", locationName: "The park"},
+  {id:2 ,host: 'me4', description:"cat party2", start_time:"6:00PM", end_time:"8:30PM", address:"123344 Jim Doorrr", locationName: "Hat Parlor"},
+  {id:2 ,host: 'me5', description:"cat party2", start_time:"6:00PM", end_time:"8:30PM", address:"123344 Jim Doorrr", locationName: "Hat Parlor"}
+
 ]
 
 
@@ -15,21 +18,18 @@ class App extends React.Component {
   render(){
     return (
       <div>
-
+      <NavBar key={'navbar'}/>
       {/* this a boostrap layout for the page */}
         <ReactBootstrap.Grid fluid>
-
           {/* A row for the map and events*/}
           <ReactBootstrap.Row className="show-grid">
             {/* The column where the google map is located*/}
             <ReactBootstrap.Col md={8}>
-              Map Column
               <Map key="MAP"/>
             </ReactBootstrap.Col>
             {/* The column where the events are located*/}
             <ReactBootstrap.Col md={4}>
-              Event Column
-              <EventList className="eventlist" key="Events" events={dummyData}/>
+              <EventList key="Events" events={dummyData}/>
             </ReactBootstrap.Col>
           </ReactBootstrap.Row>
 
@@ -38,6 +38,18 @@ class App extends React.Component {
     )
   }
 
+}
+
+function NavBar () {
+  return (
+    <div>
+      <ReactBootstrap.Nav bsStyle="pills" justified>
+        <ReactBootstrap.NavItem eventKey={1}>NavItem 1 content</ReactBootstrap.NavItem>
+        <ReactBootstrap.NavItem eventKey={2}>NavItem 2 content</ReactBootstrap.NavItem>
+        <ReactBootstrap.NavItem eventKey={3}>NavItem 3 content</ReactBootstrap.NavItem>
+      </ReactBootstrap.Nav>
+    </div>
+  )
 }
 
 class Map extends React.Component {
@@ -50,7 +62,7 @@ class Map extends React.Component {
     return (
       <div>
         <span>
-          <img className="mapPicture" src={"http://www.drodd.com/images15/maps10.jpg"} alt="alttext"/>
+          <img className="mapPicture" src={"http://www.denisbecaud.net/cartes/cartrome.jpg"} alt="alttext"/>
         </span>
       </div>
     )
@@ -61,7 +73,7 @@ class Map extends React.Component {
 function EventList (props) {
 
     return (
-      <div>
+      <div className="eventlist">
         {
           props.events.map(function(event){
             return (
@@ -90,11 +102,11 @@ class Event extends React.Component {
     var context = this
     return (
       <div className="event">
-        <p>Location: {context.state.locationName}</p>
-        <p>Host: {context.state.host}</p>
-        <p>Start Time: {context.state.startTime}  End Time: {context.state.endTime}</p>
-        <p>Address: {context.state.address}</p>
-        <p>Description: {context.state.description}</p>
+        <p className="eventText">Location: {context.state.locationName}</p>
+        <p className="eventText">Host: {context.state.host}</p>
+        <p className="eventText">Start Time: {context.state.startTime}  End Time: {context.state.endTime}</p>
+        <p className="eventText">Address: {context.state.address}</p>
+        <p className="eventText">Description: {context.state.description}</p>
       </div>
     )
   }
