@@ -1,57 +1,207 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
+
 <head>
 
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Open Invite</title>
+    <!-- Bootstrap Core CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="/styles/full-slider.css" rel="stylesheet">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <style type="text/css">
+/*
+ * Start Bootstrap - Full Slider (http://startbootstrap.com/)
+ * Copyright 2013-2016 Start Bootstrap
+ * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap/blob/gh-pages/LICENSE)
+ */
+
+html,
+body {
+    height: 100%;
+    background: rgba(224, 71, 76, 1)
+}
+/*carousel */
+.carousel,
+.item,
+.active {
+    height: 100%;
+}
+
+.carousel-inner {
+    height: 100%;
+}
+/*end carousel */
+
+/* Background images are set within the HTML using inline CSS, not here */
+
+.fill {
+    width: 100%;
+    height: 100%;
+    background-position: center;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    background-size: cover;
+    -o-background-size: cover;
+}
+
+.tint {
+  position: relative;
+  float: left;
+  margin-right: 20px;
+  margin-bottom: 20px;
+  cursor: pointer;
+}
+
+.tint:before {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(224, 71, 76, .5);
+  transition: all .3s linear;
+}
+/* end images */
+
+/*login */
+
+ .login{
+     position:absolute; top:40%; left: 20%
+ }
+ .login-content{
+     text-align: center;
+     color: #f1f0ee;
+ }
+/*end login*/
+
+    </style>
 </head>
+
 <body>
 
-<div id="fb-root"></div>
+    <!-- Full Page Image Background Carousel Header -->
+    <div id="myCarousel" class="carousel carousel-fade">
 
+        <!-- Wrapper for Slides -->
+        <div class="carousel-inner">
+            <!-- Set background images using inline CSS below. -->
+
+            <div class="item active">
+                <div class="fill tint" style="background-image:url('http://lechicgeek.boardingarea.com/wp-content/uploads/2015/05/shutterstock_238694317.jpg')"></div>
+            </div>
+
+            <div class="item">
+                <div class="fill tint" style="background-image:url('https://theweymouthdentist.com/wp-content/uploads/2016/02/2016-02-friends-in-coffee-shops.jpg');"></div>
+            </div>
+
+            <div class="item">
+                <div class="fill tint" style="background-image: url('http://www.dispatch.com/content/graphics/2012/04/21/metro-wild-soccer-0421-art-gcjguv04-1wildart-goodale-eq-03-1.jpg');"></div>
+            </div>
+        </div> <!--/wrapper-->
+    </div><!--/carousel-->
+
+     <div class="login">
+      <div class="container">
+        <div class="row">
+          <div class="col-xs-8 login-content">
+            <h1>Open Invite</h1>
+            <h3>Invite everyone without inviting anyone</h3>
+              <div id="fb-root"></div>
+              <div class="fb-login-button" data-max-rows="4" data-size="large" data-show-faces="false" data-auto-logout-link="true"></div>
+          </div>
+        </div>
+      </div>
+
+    <!-- jQuery -->
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.1.1.min.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <!-- Script to Activate the Carousel -->
+    <script>
+    $('.carousel').carousel({
+        pause: false, //don't pause on mouse hover
+        interval: 2000 //changes the speed
+    })
+    </script>
+
+    <!-- Facebook script -->
 <script>
-    var appId = '1128845777235850'; //your app id here
-    var siteRoot = 'localhost:5000'; //your site root here
+    var appId = '1128845777235850';
+    var siteRoot = 'arileofrankel.com';
 
-  window.fbAsyncInit = function() {
-    FB.init({
-      appId      : '1128845777235850', //your app id here
-      version    : 'v2.8', //leave this
-      channelURL : '//localhost:5000', // Channel File
-      status     : true,
-      cookie     : true,
-      oauth      : true,
-      xfbml      : true
-    });
+    window.fbAsyncInit = function() {
+      FB.init({
+        appId      : '1128845777235850',
+        version    : 'v2.8',
+        channelURL : '//'+'arileofrankel.com'+'/static/facebookAuthPage2.html',
+        // Channel File
 
-    FB.getLoginStatus(function(response) { //response is an object that contains user information, including a token
-      if (response.status === 'connected') { //user is logged in
-        console.log('connected')
-        FB.api( //hit the facebook API for user information
-          '/me', //a special route on the API that will use the logged in user's token
-          'GET',
-          {"fields":"id,name,friends,email"}, //fields to query on API.
-          //See https://developers.facebook.com/tools/explorer/145634995501895/?method=GET&path=me%3Ffields%3Did%2Cname%2Cemail%2Cfriends&version=v2.8
-          function(response) { //your user's data
-            console.log(response);
-          }
-        );
-      }
-      else {
-        FB.login();
-      }
-    });
-  };
+        status     : true,
+        cookie     : true,
+        oauth      : true,
+        xfbml      : true
+      });
+
+      FB.getLoginStatus(function(response) {
+        if (response.status === 'connected') {
+          console.log('connected')
+          FB.api(
+            '/me',
+            'GET',
+            {"fields":"id,name,friends"},
+            function(response) {
+              console.log(response);
+              //REDIRECT:
+              //window.location = '/'
+            }
+          );
+        }
+        else {
+          FB.login();
+        }
+      });
+    };
 
 
-(function(d, s, id) { //see line 51 for args. This function is invoked immediately
-  var js, fjs = d.getElementsByTagName(s)[0]; //fjs -> first script in document
-  if (d.getElementById(id)) return; //do nothing if a script with id facebook-jssdk
-  js = d.createElement(s); js.id = id; //create a script with that id otherwise and give it this script:
-  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.8&appId=1128845777235850"; //facebook API cdn
-  fjs.parentNode.insertBefore(js, fjs); //put it above any other scripts
-}(document, 'script', 'facebook-jssdk'));
+  (function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.8&appId=1128845777235850";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));
 
-</script>
+  </script>
 
-<div class="fb-login-button" data-max-rows="4" data-size="medium" data-show-faces="true" data-auto-logout-link="true"></div> <!--facebook button-->
+</body>
+
+<!--CREDITS:
+image 1: https://www.google.com/search?site=&tbm=isch&source=hp&biw=1278&bih=859&q=bar+friends&oq=bar+friends&gs_l=img.3..0l2j0i8i30k1l8.7589.9262.0.12660.15.11.1.0.0.0.172.1296.5j6.11.0....0...1ac.1.64.img..3.12.1294...0i19k1j0i5i30i19k1j0i30k1j0i5i30k1.KnBoFUQW9dM#imgrc=qk9oQ9gPAqMZoM%3A
+
+image 2: https://www.google.com/search?site=&tbm=isch&source=hp&biw=1278&bih=859&q=coffee+shop+friends&oq=coffee+shop+friends&gs_l=img.3..0j0i5i30k1l2j0i8i30k1l7.1942.4290.0.4414.21.15.1.4.4.0.143.1405.6j8.14.0....0...1ac.1.64.img..2.19.1412...0i10k1j0i30k1.45KHMC9CNLM#imgrc=ZzW2iiYIJJnSLM%3A
+
+image 3: https://www.google.com/search?site=&tbm=isch&source=hp&biw=1278&bih=859&q=friends+playing+soccer&oq=friends+playing+soccer&gs_l=img.3..0l2j0i5i30k1l2.905.3568.0.3647.22.17.0.5.5.0.155.1609.6j9.15.0....0...1ac.1.64.img..3.19.1488...0i8i30k1.lrJMOJlLZQA#imgrc=E2xyMX67tyCpxM%3A
+-->
+
+<!--additional facebook resources:
+
+<div class="friends" onclick=window.listfriends()></div>
 
 <div
   class="fb-like"
@@ -60,7 +210,6 @@
   data-show-faces="true">
 </div>
 
-<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.1.1.min.js"></script>
-
+-->
 </body>
 </html>
