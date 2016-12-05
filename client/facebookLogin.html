@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Open Invite</title>
+    <!-- Bootstrap Core CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="assets/styles/full-slider.css" rel="stylesheet">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+
+    <!-- Full Page Image Background Carousel Header -->
+    <div id="myCarousel" class="carousel carousel-fade">
+
+        <!-- Wrapper for Slides -->
+        <div class="carousel-inner">
+            <!-- Set background images using inline CSS below. -->
+
+            <div class="item active">
+                <div class="fill tint" style="background-image:url('assets/img/bar.png')"></div>
+            </div>
+
+            <div class="item">
+                <div class="fill tint" style="background-image:url('assets/img/coffee.png');"></div>
+            </div>
+
+            <div class="item">
+                <div class="fill tint" style="background-image: url('assets/img/soccer.png');"></div>
+            </div>
+        </div> <!--/wrapper-->
+    </div><!--/carousel-->
+
+     <div class="login">
+      <div class="container">
+        <div class="row">
+          <div class="col-xs-8 login-content">
+            <h1>Open Invite</h1>
+            <h3>Invite everyone without inviting anyone</h3>
+              <div id="fb-root"></div>
+              <div class="fb-login-button" data-max-rows="4" data-size="large" data-show-faces="false" scope="user_friends" data-auto-logout-link="true"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- jQuery -->
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.1.1.min.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <!-- Script to Activate the Carousel -->
+    <script>
+    $('.carousel').carousel({
+        pause: false, //don't pause on mouse hover
+        interval: 2000 //changes the speed
+    })
+    </script>
+
+    <!-- Facebook script -->
+<script>
+    var appId = '1128845777235850';
+    var siteRoot = 'arileofrankel.com';
+
+    window.fbAsyncInit = function() {
+      FB.init({
+        appId      : '1128845777235850',
+        version    : 'v2.8',
+          // Channel File
+
+        status     : true,
+        cookie     : true,
+        oauth      : true,
+        xfbml      : true
+      });
+
+      FB.getLoginStatus(function(response) {
+        if (response.status === 'connected') {
+          console.log('already connected to FB API')
+          FB.api(
+            '/me',
+            'GET',
+            {"fields":"id,name,friends"},
+            function(response) {
+              console.log(response);
+              //REDIRECT:
+              //window.location = '/'
+            }
+          )
+        }
+        else {
+          FB.login();
+          console.log('now connected to FB API')
+          FB.api(
+            '/me',
+            'GET',
+            {"fields":"id,name,friends"},
+            function(response) {
+              console.log(response);
+              //REDIRECT:
+              //window.location = '/'
+            }
+          )
+        }
+      });
+    };
+
+
+  (function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.8&appId=1128845777235850";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));
+
+  </script>
+
+</body>
+
+<!--CREDITS:
+image 1: https://www.google.com/search?site=&tbm=isch&source=hp&biw=1278&bih=859&q=bar+friends&oq=bar+friends&gs_l=img.3..0l2j0i8i30k1l8.7589.9262.0.12660.15.11.1.0.0.0.172.1296.5j6.11.0....0...1ac.1.64.img..3.12.1294...0i19k1j0i5i30i19k1j0i30k1j0i5i30k1.KnBoFUQW9dM#imgrc=qk9oQ9gPAqMZoM%3A
+
+image 2: https://www.google.com/search?site=&tbm=isch&source=hp&biw=1278&bih=859&q=coffee+shop+friends&oq=coffee+shop+friends&gs_l=img.3..0j0i5i30k1l2j0i8i30k1l7.1942.4290.0.4414.21.15.1.4.4.0.143.1405.6j8.14.0....0...1ac.1.64.img..2.19.1412...0i10k1j0i30k1.45KHMC9CNLM#imgrc=ZzW2iiYIJJnSLM%3A
+
+image 3: https://www.google.com/search?site=&tbm=isch&source=hp&biw=1278&bih=859&q=friends+playing+soccer&oq=friends+playing+soccer&gs_l=img.3..0l2j0i5i30k1l2.905.3568.0.3647.22.17.0.5.5.0.155.1609.6j9.15.0....0...1ac.1.64.img..3.19.1488...0i8i30k1.lrJMOJlLZQA#imgrc=E2xyMX67tyCpxM%3A
+-->
+
+<!--additional facebook resources:
+
+<div class="friends" onclick=window.listfriends()></div>
+
+<div
+  class="fb-like"
+  data-share="true"
+  data-width="450"
+  data-show-faces="true">
+</div>
+
+-->
+</body>
+</html>

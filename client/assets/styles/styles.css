@@ -1,0 +1,14 @@
+p {
+  color:red;
+}
+
+.mapPicture {
+  width: 100%;
+  height: auto;
+}
+
+.event {
+  border: 2px solid black;
+  border-radius: 3px;
+  margin-bottom:5px;
+}
