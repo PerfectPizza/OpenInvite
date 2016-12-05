@@ -12,7 +12,7 @@ var knexfile = require('../knexfile.js');
 var knex = require('knex')(knexfile);
 
 // code from the express.static docs
-// app.use('/static', express.static(path.join(__dirname, '../client/assets/')))
+app.use(express.static(path.join(__dirname, '/../client/')))
 
  app.get('/', function(req,res){
    //browserify(path.join(__dirname, '..', '/client/index.js'))
