@@ -9,27 +9,58 @@ class App extends React.Component {
     return (
     <div>
       <p> there is supposed to be a button below this</p>
-      <ReactBootstrap.Button bsStyle="primary"> Primary </ReactBootstrap.Button>
 
     {/* this a boostrap layout for the page */}
-      <ReactBootstrap.Grid>
+      <ReactBootstrap.Grid fluid>
+        <ReactBootstrap.Row className="show-grid">
+          <ReactBootstrap.Button bsStyle="primary"> Primary </ReactBootstrap.Button>
+        </ReactBootstrap.Row>
         {/* A row for the map and events*/}
-
         <ReactBootstrap.Row className="show-grid">
           {/* The column where the google map is located*/}
           <ReactBootstrap.Col md={8}>
-            <code>{'<h1> Map Column</h1>'}</code>
+            Map Column
+            <Map key="MAP"/>
           </ReactBootstrap.Col>
           {/* The column where the events are located*/}
           <ReactBootstrap.Col md={4}>
-
-            <code> {'<h1> Events Column</h1>'}</code>
-
+            Event Column
+            <EventList key="EventList"/>
           </ReactBootstrap.Col>
         </ReactBootstrap.Row>
-
       </ReactBootstrap.Grid>
     </div>
+    )
+  }
+
+}
+
+class Map extends React.Component {
+  constructor () {
+    super()
+    this.state = {}
+  }
+
+  render(){
+    return (
+      <div>
+        <span><img src={"http://bit.ly/2gHxhQI"} alt="alttext"/>Hello</span>
+      </div>
+    )
+  }
+}
+
+class EventList extends React.Component {
+  constructor () {
+    super()
+    this.state = {}
+  }
+
+  render(){
+    return (
+      <div>
+        <span><img src={"http://calvarychapelvenice.org/wp-content/uploads/2015/09/EVENTS11.jpg"} alt="alttext"/>Hello</span>
+      </div>
     )
   }
 
