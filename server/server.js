@@ -1,3 +1,5 @@
+ //TODO: FILTRATION BEFORE SENDING BACK EVENTS
+
  var express = require('express');
  var browserify = require('browserify-middleware');
  var path = require('path');
@@ -27,34 +29,55 @@ app.use (bodyParser.json());
 
  app.get('/', function(req,res){
    //browserify(path.join(__dirname, '..', '/client/index.js'))
-   console.log("this route got hit.")
     res.send(path.join(__dirname, '../client/index.html'));
    });
 
  app.get('/facebookLogin', function(req, res){
-   console.log("this route got hit.")
     res.sendFile(path.join(__dirname, '../client/facebookLogin.html'));
- })
+ });
 
- app.post("/user/login", function(req, res) {
-
+ app.get('/events', function(req,res){
   var now = new Date().toISOString().slice(0, 19).replace('T', ' ');
   var fourtyEightHours = new Date(+new Date + 1.728e8).toISOString().slice(0, 19).replace('T', ' ');
 
+    knex.select('*').from('events').where('end_time', '>', now).andWhere('end_time', '<', fourtyEightHours)
+    .then(function(data){
+        res.json(data);
+      }).catch(function(err){
+        console.log(err);
+      });
+  });
+
+ app.post("/user/login", function(req, res) {
+  var now = new Date().toISOString().slice(0, 19).replace('T', ' ');
+  var fourtyEightHours = new Date(+new Date + 1.728e8).toISOString().slice(0, 19).replace('T', ' ');
+  var friends = req.body.friends.map( (friend) => friend.id)
+  // console.log(req.body);
    knex.select('*').from('users').where('id', req.body.id)
    .then(function(data){
-    console.log('hello data', data.length)
+    // console.log('hello data', data.length)
     if(data.length === 0){
-      knex.insert(req.body).into('users').then(console.log('new user added!'))
+      // console.log(req.body);
+      knex.insert(req.body).into('users')
+      .then( console.log('new user added!') )
       }
    })
    .then(function(){
     knex.select('*').from('events').where('end_time', '>', now).andWhere('end_time', '<', fourtyEightHours)
     .then(function(data){
-      res.json(data);}
-      )})
-  });
+      console.log(req.body.id);
+      // console.log("returned events", data);
+      // console.log(friends.indexOf(null));
 
+//PICK UP HERE WITH FILTRATION BEFORE SENDING BACK
+      var events = data.filter( (event) => friends.indexOf(event.creator_id) !== -1
+        || event.creator_id === req.body.id
+        )
+      console.log("events being sent back: ", events);
+      res.json(events);
+    })
+  })
+});
 
 // app.post("/events/rsvp", function(req, res) {
 //   knex.insert(req.body).into('events_users')

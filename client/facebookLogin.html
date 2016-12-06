@@ -1,4 +1,10 @@
 <!DOCTYPE html>
+<!--TODO:
+LOADING MESSAGES - JQUERY
+ASYNC REACT SCRIPT TAG INSERTION AFTER ALL THE DATA'S COLLECTED/GET RID OF THE LOADING PAGE DIVS AT THE SAME TIME
+PUT THE DATA IN TO THE STATE WHERE IT NEEDS TO GO
+-->
+
 <html lang="en">
 
 <head>
@@ -12,8 +18,14 @@
     <title>Open Invite</title>
     <!-- Bootstrap Core CSS -->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Custom CSS -->
+    <!-- Landing Page CSS -->
     <link href="assets/styles/full-slider.css" rel="stylesheet">
+    <!--Main CSS-->
+    <link rel="stylesheet" type="text/css" href="assets/styles/styles.css">
+    <!--react scripts-->
+    <script src="../node_modules/react/dist/react.js"></script>
+    <script src="../node_modules/react-dom/dist/react-dom.js"></script>
+    <script src="../node_modules/react-bootstrap/dist/react-bootstrap.min.js"></script>
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -23,7 +35,6 @@
 </head>
 
 <body>
-
     <!-- Full Page Image Background Carousel Header -->
     <div id="myCarousel" class="carousel carousel-fade">
 
@@ -90,32 +101,30 @@
       });
 
       FB.getLoginStatus(function(response) {
+        console.log("response from getLoginStatus: ", response);
         if (response.status === 'connected') {
-          console.log('already connected to FB API')
+          console.log('already connected to FB API');
           FB.api(
             '/me',
             'GET',
-            {"fields":"id,name,friends"},
+            {"fields":"id,name,email,friends"},
             function(response) {
-              console.log(response);
-              //REDIRECT:
-              //window.location = '/'
+              //strangely not getting emails
+              console.log("response from API GET: ", response);
+                var randomTime = new Date(+new Date + 1.728e7).toISOString().slice(0, 19).replace('T', ' ');
+                $.ajax({
+                  type: "POST",
+                  url: '/user/login',
+                  data: JSON.stringify({id: response.id, friends: response.friends.data, name: response.name, email: response.email}),
+                  contentType: "application/json",
+                  success: function(responseUser){
+                    console.log("response from user/login POST")
+                    window.currentUserEvents = responseUser;
+                    // console.log("response from /user/login post: ",responseUser);
+                  }
+                })
+            });
             }
-          )
-        }
-        else {
-          FB.login();
-          console.log('now connected to FB API')
-          FB.api(
-            '/me',
-            'GET',
-            {"fields":"id,name,friends"},
-            function(response) {
-              console.log(response);
-              //REDIRECT:
-              //window.location = '/'
-            }
-          )
         }
       });
     };
