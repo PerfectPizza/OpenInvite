@@ -26,17 +26,18 @@ var knex = require('knex')({
 app.use(express.static(path.join(__dirname, '/../client/')))
 app.use (bodyParser.json());
 
+ app.get('/app-bundle.js',
+    browserify('./client/components/App.jsx', {
+    transform: [ [ require('babelify'), { presets: ["es2015", "react"] } ] ]
+  })
+  )
 
  app.get('/', function(req,res){
    //browserify(path.join(__dirname, '..', '/client/index.js'))
     res.send(path.join(__dirname, '../client/index.html'));
    });
  
- app.get('/app-bundle.js',
-    browserify('./client/index.js', {
-    transform: [ [ require('babelify'), { presets: ["es2015", "react"] } ] ]
-  })
-  )
+
 
  app.get('/facebookLogin', function(req, res){
     res.sendFile(path.join(__dirname, '../client/facebookLogin.html'));
