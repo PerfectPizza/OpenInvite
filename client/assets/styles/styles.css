@@ -69,7 +69,7 @@ h1 {
     background-color: #FFF;
     z-index: 1051 !important;
     position: fixed;
-    display: inline-block !important;
+    display: inline-block;
     float: left;
     margin: 20px;
     width: 50%;

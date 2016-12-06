@@ -224,17 +224,16 @@ const CreateEventForm = React.createClass({
   },
 
   componentDidUpdate () {
-
+      // -------------------------   Create Event Map ------------------------------------
       var latLong = new google.maps.LatLng(30.256729, -97.739650);
       var mapOptions = {
             zoom: 10,
             center: latLong
         }
 
-
       var map = new google.maps.Map(document.getElementById('createEventMap'), mapOptions)
 
-// ---------------------- BEGIN AUTOCOMPLETE SEARCHBAR ------------------------------------------
+     // ------------------------------  Searchbar   --------------------------------------
 
 
       // Create the search box and link it to the UI element.
@@ -249,23 +248,18 @@ const CreateEventForm = React.createClass({
         var marker = new google.maps.Marker({
           map: map
         });
-        marker.addListener('click', function() {
-          infowindow.open(map, marker);
-        });
 
         autocomplete.addListener('place_changed', function() {
+          $('.pac-container').show()
           infowindow.close();
           var place = autocomplete.getPlace();
           if (!place.geometry) {
             return;
           }
-
-          if (place.geometry.viewport) {
-            map.fitBounds(place.geometry.viewport);
-          } else {
+          $('.pac-container').hide()
+          console.log("place.geometry.viewport", place.geometry.viewport)
             map.setCenter(place.geometry.location);
-            map.setZoom(17);
-          }
+            map.setZoom(13);
 
           // Set the position of the marker using the place ID and location.
           marker.setPlace({
@@ -276,24 +270,23 @@ const CreateEventForm = React.createClass({
 
           //Access data on selected location
           console.log("Place Name:", place.name)
-          console.log("PLACE ID:", place.place_id)
+          console.log("Place ID:", place.place_id)
           console.log("Place Location:", place.geometry.location)
           console.log("Place Latitude:", place.geometry.location.lat())
           console.log("Place Longitude:", place.geometry.location.lng())
           console.log("Formatted Address:", place.formatted_address)
 
         });
-
-// ---------------------- END SEARCHBAR AUTOCOMPLETE TEST --------------------------------------
-
 },
 
   close() {
     this.setState({ showModal: false });
+    $('.pac-container').hide()
   },
 
   open() {
     this.setState({ showModal: true });
+    $('.pac-container').hide()
   },
 
   render() {
