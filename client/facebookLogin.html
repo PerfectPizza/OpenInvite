@@ -104,30 +104,43 @@ PUT THE DATA IN TO THE STATE WHERE IT NEEDS TO GO
         console.log("response from getLoginStatus: ", response);
         if (response.status === 'connected') {
           console.log('already connected to FB API');
+          //start spinner
+          //add a message 'fetching friends and events'
           FB.api(
             '/me',
             'GET',
             {"fields":"id,name,email,friends"},
             function(response) {
               //strangely not getting emails
+              //add a message 'almost there'
               console.log("response from API GET: ", response);
-                var randomTime = new Date(+new Date + 1.728e7).toISOString().slice(0, 19).replace('T', ' ');
                 $.ajax({
                   type: "POST",
                   url: '/user/login',
-                  data: JSON.stringify({id: response.id, friends: response.friends.data, name: response.name, email: response.email}),
+                  data: JSON.stringify({id: response.id, name: response.name, email: response.email}),
                   contentType: "application/json",
                   success: function(responseUser){
-                    console.log("response from user/login POST")
+                    console.log("response from user/login POST", responseUser)
                     window.currentUserEvents = responseUser;
+                    // 'add a message 'ready.....''
                     // console.log("response from /user/login post: ",responseUser);
                   }
                 })
             });
-            }
-        }
+          }
       });
+      FB.Event.subscribe('auth.authResponseChange', auth_response_change_callback);
+      FB.Event.subscribe('auth.statusChange', auth_status_change_callback);
     };
+
+    var auth_response_change_callback = function(response) {
+      console.log("auth_response_change_callback");
+      console.log(response);
+    }
+
+    var auth_status_change_callback = function(response) {
+      console.log("auth_status_change_callback: " + response.status);
+    }
 
 
   (function(d, s, id) {
