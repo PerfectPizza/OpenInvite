@@ -23,18 +23,31 @@ PUT THE DATA IN TO THE STATE WHERE IT NEEDS TO GO
     <!--Main CSS-->
     <link rel="stylesheet" type="text/css" href="assets/styles/styles.css">
     <!--react scripts-->
-    <script src="../node_modules/react/dist/react.js"></script>
-    <script src="../node_modules/react-dom/dist/react-dom.js"></script>
+    <script src="https://unpkg.com/react@15/dist/react.min.js"></script>
+  <script src="https://unpkg.com/react-dom@15/dist/react-dom.min.js"></script>
     <script src="../node_modules/react-bootstrap/dist/react-bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react-bootstrap/0.30.7/react-bootstrap.min.js"></script>
+    <script src="testData/dummyMapData.js"></script>
+
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+    <script>
+      function runApp () {
+      var js = document.createElement('script');
+      js.src = '/app-bundle.js'
+      //js.src = 'assets/compiled/App.js';
+      document.body.appendChild(js);
+    }
+    </script>
 </head>
 
 <body>
+<div id="app"></div>
+<!-- <div class='disappearing'> -->
     <!-- Full Page Image Background Carousel Header -->
     <div id="myCarousel" class="carousel carousel-fade">
 
@@ -68,7 +81,7 @@ PUT THE DATA IN TO THE STATE WHERE IT NEEDS TO GO
         </div>
       </div>
     </div>
-
+<!-- <div class='content'> -->
     <!-- jQuery -->
     <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.1.1.min.js"></script>
 
@@ -120,8 +133,17 @@ PUT THE DATA IN TO THE STATE WHERE IT NEEDS TO GO
                   data: JSON.stringify({id: response.id, name: response.name, email: response.email}),
                   contentType: "application/json",
                   success: function(responseUser){
+                    $('.login, .carousel').fadeOut();
+                    $('body').css({'backgroundColor':'white'})
                     console.log("response from user/login POST", responseUser)
                     window.currentUserEvents = responseUser;
+                    $.getScript( "https://maps.googleapis.com/maps/api/js?key=AIzaSyBPaV2vJO0JOul9Qs4Oi0fpzCEFW4oecfg&libraries=places&callback=runApp", function( data, textStatus, jqxhr ) {
+                      runApp();
+                      console.log( data ); // Data returned
+                      console.log( textStatus ); // Success
+                      console.log( jqxhr.status ); // 200
+                      console.log( "Load was performed." );
+                    });
                     // 'add a message 'ready.....''
                     // console.log("response from /user/login post: ",responseUser);
                   }
@@ -135,7 +157,41 @@ PUT THE DATA IN TO THE STATE WHERE IT NEEDS TO GO
 
     var auth_response_change_callback = function(response) {
       console.log("auth_response_change_callback");
-      console.log(response);
+      if (response.status === 'connected') {
+          console.log('already connected to FB API');
+          //start spinner
+          //add a message 'fetching friends and events'
+          FB.api(
+            '/me',
+            'GET',
+            {"fields":"id,name,email,friends"},
+            function(response) {
+              //strangely not getting emails
+              //add a message 'almost there'
+              console.log("response from API GET: ", response);
+                $.ajax({
+                  type: "POST",
+                  url: '/user/login',
+                  data: JSON.stringify({id: response.id, name: response.name, email: response.email}),
+                  contentType: "application/json",
+                  success: function(responseUser){
+                    $('.login, .carousel').fadeOut();
+                    $('body').css({'backgroundColor':'white'})
+                    console.log("response from user/login POST", responseUser)
+                    window.currentUserEvents = responseUser;
+                    $.getScript( "https://maps.googleapis.com/maps/api/js?key=AIzaSyBPaV2vJO0JOul9Qs4Oi0fpzCEFW4oecfg&libraries=places&callback=runApp", function( data, textStatus, jqxhr ) {
+                      runApp();
+                      console.log( data ); // Data returned
+                      console.log( textStatus ); // Success
+                      console.log( jqxhr.status ); // 200
+                      console.log( "Load was performed." );
+                    });
+                    // 'add a message 'ready.....''
+                    // console.log("response from /user/login post: ",responseUser);
+                  }
+                })
+            });
+          }
     }
 
     var auth_status_change_callback = function(response) {
@@ -175,5 +231,5 @@ image 3: https://www.google.com/search?site=&tbm=isch&source=hp&biw=1278&bih=859
 </div>
 
 -->
-</body>
+
 </html>
