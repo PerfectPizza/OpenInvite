@@ -79,7 +79,6 @@ function EventList (props) {
 
     return (
       <div className="eventlist">
-      <div>
         {
           props.events.map(function(event){
             return (
@@ -87,6 +86,7 @@ function EventList (props) {
             )
           })
         }
+
       </div>
     )
 }
