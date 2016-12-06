@@ -19,7 +19,19 @@
   <script src="node_modules/react-dom/dist/react-dom.js"></script>
   <script src="node_modules/react-bootstrap/dist/react-bootstrap.min.js"></script> -->
   <!-- <script src="node_modules/lodash/lodash.js"></script> -->
-
+  <script>
+  $('#createEventForm').on('submit',function (event) {
+    event.preventDefault();
+    $.ajax({
+        url: '/events/new',
+        type: 'POST',
+        data : $('#createEventForm').serialize(),
+        success: function(json) {
+            alert('all done');
+        }
+    });
+  });
+  </script>
 </head>
 <body>
   <h1 id="title">Open Invite</h1>
