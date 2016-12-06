@@ -86,20 +86,26 @@ app.use (bodyParser.json());
   })
 });
 
-// app.post("/events/rsvp", function(req, res) {
-//   knex.insert(req.body).into('events_users')
-//   .then(res.send('rsvped to event'))
-//   });
+app.post("/events/rsvp", function(req, res) {
+  //takes request body
+  //{user_id: 1234, event_id:6789}
+  knex.insert(req.body).into('events_users')
+  .then(res.send('rsvped to event'))
+  });
 
-// app.post("/events/attendance", function(req, res) {
-//   knex.select('*').from('events_users').where('event_id', req.body)
-//   .then(res.send('rsvped to event'))
-//   });
+app.post("/events/attendance", function(req, res) {
+  //takes request body
+  //{event_id: 6789}
+  knex.select('*').from('events_users').where(req.body)
+  .then(function(attendees){res.json(attendees)})
+  });
 
-// app.post("/events/unrsvp", function(req, res) {
-//   knex('events_users').where(req.body).del()
-//   .then(res.send('rsvped to event'))
-//   });
+app.post("/events/unrsvp", function(req, res) {
+  //takes request body
+  //{user_id: 1234, event_id:}
+  knex('events_users').where(req.body).del()
+  .then(res.send('unrsvped to event'))
+  });
 
 app.post("/events/update", function(req, res){
   console.log("request body", req.body);
