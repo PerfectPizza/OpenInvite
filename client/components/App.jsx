@@ -56,63 +56,62 @@ class Map extends React.Component {
   componentDidMount () {
 
       var myLatlng = new google.maps.LatLng(30.256729, -97.739650);
-      // var myDiv = ReactDOM.findDOMNode(this);
       var mapOptions = {
             zoom: 14,
             center: myLatlng
         }
         window.map = new google.maps.Map(document.getElementById('map'), mapOptions)
-        map = window.map
+        // map = window.map
 
 // ---------------------- BEGIN AUTOCOMPLETE SEARCHBAR TEST ------------------------------------------
 
 
-      // Create the search box and link it to the UI element.
-       var input = document.getElementById('pac-input');
+      // // Create the search box and link it to the UI element.
+      //  var input = document.getElementById('pac-input');
 
-        var autocomplete = new google.maps.places.Autocomplete(input);
-        autocomplete.bindTo('bounds', map);
+      //   var autocomplete = new google.maps.places.Autocomplete(input);
+      //   autocomplete.bindTo('bounds', map);
 
-        map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+      //   map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
 
-        var infowindow = new google.maps.InfoWindow();
-        var marker = new google.maps.Marker({
-          map: map
-        });
-        marker.addListener('click', function() {
-          infowindow.open(map, marker);
-        });
+      //   var infowindow = new google.maps.InfoWindow();
+      //   var marker = new google.maps.Marker({
+      //     map: map
+      //   });
+      //   marker.addListener('click', function() {
+      //     infowindow.open(map, marker);
+      //   });
 
-        autocomplete.addListener('place_changed', function() {
-          infowindow.close();
-          var place = autocomplete.getPlace();
-          if (!place.geometry) {
-            return;
-          }
+      //   autocomplete.addListener('place_changed', function() {
+      //     infowindow.close();
+      //     var place = autocomplete.getPlace();
+      //     if (!place.geometry) {
+      //       return;
+      //     }
 
-          if (place.geometry.viewport) {
-            map.fitBounds(place.geometry.viewport);
-          } else {
-            map.setCenter(place.geometry.location);
-            map.setZoom(17);
-          }
+      //     if (place.geometry.viewport) {
+      //       map.fitBounds(place.geometry.viewport);
+      //     } else {
+      //       map.setCenter(place.geometry.location);
+      //       map.setZoom(17);
+      //     }
 
-          // Set the position of the marker using the place ID and location.
-          marker.setPlace({
-            placeId: place.place_id,
-            location: place.geometry.location
-          });
-          marker.setVisible(true);
+      //     // Set the position of the marker using the place ID and location.
+      //     marker.setPlace({
+      //       placeId: place.place_id,
+      //       location: place.geometry.location
+      //     });
+      //     marker.setVisible(true);
 
-          //Access data on selected location
-          console.log("Place Name:", place.name)
-          console.log("PLACE ID:", place.place_id)
-          console.log("Place Location:", place.geometry.location)
-          console.log("Place Latitude:", place.geometry.location.lat())
-          console.log("Place Longitude:", place.geometry.location.lng())
-          console.log("Formatted Address:", place.formatted_address)
+      //     //Access data on selected location
+      //     console.log("Place Name:", place.name)
+      //     console.log("PLACE ID:", place.place_id)
+      //     console.log("Place Location:", place.geometry.location)
+      //     console.log("Place Latitude:", place.geometry.location.lat())
+      //     console.log("Place Longitude:", place.geometry.location.lng())
+      //     console.log("Formatted Address:", place.formatted_address)
 
-        });
+      //   });
 
 // ---------------------- END SEARCHBAR AUTOCOMPLETE TEST --------------------------------------
 
@@ -121,7 +120,6 @@ class Map extends React.Component {
   render() {
     return (
       <div>
-        <input id="pac-input" class="controls" type="text" placeholder="Search Box" />
         <div style={{width: "66vw", height: "80vh"}} id="map"></div>
       </div>
     )
@@ -225,6 +223,71 @@ const CreateEventForm = React.createClass({
     return { showModal: false };
   },
 
+  componentDidUpdate () {
+
+      var latLong = new google.maps.LatLng(30.256729, -97.739650);
+      var mapOptions = {
+            zoom: 10,
+            center: latLong
+        }
+
+
+      var map = new google.maps.Map(document.getElementById('createEventMap'), mapOptions)
+
+// ---------------------- BEGIN AUTOCOMPLETE SEARCHBAR ------------------------------------------
+
+
+      // Create the search box and link it to the UI element.
+       var input = document.getElementById('pac-input2');
+
+        var autocomplete = new google.maps.places.Autocomplete(input);
+        autocomplete.bindTo('bounds', map);
+
+        map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+
+        var infowindow = new google.maps.InfoWindow();
+        var marker = new google.maps.Marker({
+          map: map
+        });
+        marker.addListener('click', function() {
+          infowindow.open(map, marker);
+        });
+
+        autocomplete.addListener('place_changed', function() {
+          infowindow.close();
+          var place = autocomplete.getPlace();
+          if (!place.geometry) {
+            return;
+          }
+
+          if (place.geometry.viewport) {
+            map.fitBounds(place.geometry.viewport);
+          } else {
+            map.setCenter(place.geometry.location);
+            map.setZoom(17);
+          }
+
+          // Set the position of the marker using the place ID and location.
+          marker.setPlace({
+            placeId: place.place_id,
+            location: place.geometry.location
+          });
+          marker.setVisible(true);
+
+          //Access data on selected location
+          console.log("Place Name:", place.name)
+          console.log("PLACE ID:", place.place_id)
+          console.log("Place Location:", place.geometry.location)
+          console.log("Place Latitude:", place.geometry.location.lat())
+          console.log("Place Longitude:", place.geometry.location.lng())
+          console.log("Formatted Address:", place.formatted_address)
+
+        });
+
+// ---------------------- END SEARCHBAR AUTOCOMPLETE TEST --------------------------------------
+
+},
+
   close() {
     this.setState({ showModal: false });
   },
@@ -272,7 +335,7 @@ const CreateEventForm = React.createClass({
             </div>
 
             <div class="form-group">
-              <label for="description" class="cols-sm-2 control-label">Start Time</label>
+              <label for="startTime" class="cols-sm-2 control-label">Start Time</label>
               <div class="cols-sm-10">
                   <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
                   <input type="datetime-local" class="form-control" name="startTime" id="startTime"  placeholder="what's happening"/>
@@ -280,12 +343,22 @@ const CreateEventForm = React.createClass({
             </div>
 
             <div class="form-group">
-              <label for="description" class="cols-sm-2 control-label">End Time</label>
+              <label for="endTime" class="cols-sm-2 control-label">End Time</label>
               <div class="cols-sm-10">
                   <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
                   <input type="datetime-local" class="form-control" name="endTime" id="endTime"  placeholder="what's happening"/>
                 </div>
             </div>
+
+            <div class="form-group">
+              <label for="location" class="cols-sm-2 control-label">Location</label>
+              <div class="cols-sm-10">
+                  <input type="text" id="pac-input2" placeholder="Holiday Inn" autocomplete="on" style={{display: "block"}}/>
+                  <div class="col-sm-10" style={{width: "46vw", height: "40vh"}} id="createEventMap"></div>
+                </div>
+            </div>
+            
+            
 
            <div class="form-group">
               <div class="col-sm-offset-2 col-sm-10">
