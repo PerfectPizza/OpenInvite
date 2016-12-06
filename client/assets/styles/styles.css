@@ -15,7 +15,7 @@ h1 {
 .eventlist {
   padding:0;
   margin:0;
-  height: 100vh;
+  height: 80vh;
   overflow: scroll;
 }
 
@@ -23,8 +23,13 @@ h1 {
   border: 2px solid black;
   border-radius: 3px;
   margin-bottom:5px;
+  background: lightgrey;
 }
 
 .eventText {
   text-align: center;
+}
+
+.activeEvent {
+    background: pink !important;
 }

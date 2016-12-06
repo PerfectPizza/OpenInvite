@@ -55,7 +55,7 @@ app.use (bodyParser.json());
       )})
   });
 
- 
+
 // app.post("/events/rsvp", function(req, res) {
 //   knex.insert(req.body).into('events_users')
 //   .then(res.send('rsvped to event'))
@@ -69,8 +69,8 @@ app.use (bodyParser.json());
 // app.post("/events/unrsvp", function(req, res) {
 //   knex('events_users').where(req.body).del()
 //   .then(res.send('rsvped to event'))
-//   }); 
- 
+//   });
+
 app.post("/events/update", function(req, res){
   console.log("request body", req.body);
   knex('events').where('id', req.body.id).update(req.body)
@@ -93,14 +93,14 @@ app.post("/events/update", function(req, res){
   });
 
   // app.get("/events", function(req, res) {
-  	
+
   // var now = new Date().toISOString().slice(0, 19).replace('T', ' ');
   // var fourtyEightHours = new Date(+new Date + 1.728e8).toISOString().slice(0, 19).replace('T', ' ');
 
   //  knex.select('*').from('events').where('end_time', '>', now).andWhere('end_time', '<', fourtyEightHours)
   //   .then(function(data){
   //     res.json(data);})
-  //  // TODO new query to events_users to find everyone attending event 
+  //  // TODO new query to events_users to find everyone attending event
   // });
 
  var port = process.env.PORT || 5000;
