@@ -111,9 +111,9 @@ class Map extends React.Component {
           console.log("Place Latitude:", place.geometry.location.lat())
           console.log("Place Longitude:", place.geometry.location.lng())
           console.log("Formatted Address:", place.formatted_address)
-          
+
         });
-      
+
 // ---------------------- END SEARCHBAR AUTOCOMPLETE TEST --------------------------------------
 
 }
@@ -164,7 +164,7 @@ class Event extends React.Component {
 componentDidMount () {
   //set current event's gps coordinates
   var gpsCoords = new google.maps.LatLng(this.state.latitude, this.state.longitude);
-    
+
     //set marker state to a new Google Maps Marker (pin)
 
     var marker = new google.maps.Marker({
@@ -182,12 +182,12 @@ componentDidMount () {
           marker.setAnimation(google.maps.Animation.BOUNCE)
 
           map.setCenter(marker.getPosition())
-          
+
           $('.event').removeClass('activeEvent');
           $('#' + this.id).addClass('activeEvent');
 
       })
-      
+
 }
 
 
@@ -219,5 +219,86 @@ componentDidMount () {
   }
 }
 
+const CreateEventForm = React.createClass({
+  getInitialState() {
+    return { showModal: false };
+  },
+
+  close() {
+    this.setState({ showModal: false });
+  },
+
+  open() {
+    this.setState({ showModal: true });
+  },
+
+  render() {
+    return (
+      <div>
+        <ReactBootstrap.Button md={4}
+          bsStyle="primary btn-block"
+          bsSize="large"
+          onClick={this.open}
+        >
+          Create New Human
+        </ReactBootstrap.Button>
+        <ReactBootstrap.Modal
+          show={this.state.showModal}
+          onHide={this.close}
+          aria-labelledby="ModalHeader"
+        >
+          <ReactBootstrap.Modal.Header closeButton>
+            <ReactBootstrap.Modal.Title id='ModalHeader'></ReactBootstrap.Modal.Title>
+          </ReactBootstrap.Modal.Header>
+          <ReactBootstrap.Modal.Body>
+
+            <div className="createEventFormDiv">
+
+            <form class="form-horizontal" id="createEventForm" method="post" role="form"action="/events/new">
+
+            <div class="form-group">
+              <label for="name" class="cols-sm-2 control-label">Event Title</label>
+              <div class="cols-sm-10">
+                  <input type="text" class="form-control" name="eventTitle" id="eventTitle"  placeholder="what's it called"/>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="description" class="cols-sm-2 control-label">Event Description</label>
+              <div class="cols-sm-10">
+                  <textarea class="form-control" name="eventDesc" id="eventDesc"  placeholder="what's happening"/>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="description" class="cols-sm-2 control-label">Start Time</label>
+              <div class="cols-sm-10">
+                  <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
+                  <input type="datetime-local" class="form-control" name="startTime" id="startTime"  placeholder="what's happening"/>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="description" class="cols-sm-2 control-label">End Time</label>
+              <div class="cols-sm-10">
+                  <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
+                  <input type="datetime-local" class="form-control" name="endTime" id="endTime"  placeholder="what's happening"/>
+                </div>
+            </div>
+
+           <div class="form-group">
+              <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-large primary" onClick={this.close}>Create a Human</button>
+              </div>
+            </div>
+
+          </form>
+          </div>
+          </ReactBootstrap.Modal.Body>
+        </ReactBootstrap.Modal>
+      </div>
+    )
+  }
+})
 
 ReactDOM.render(<App key="MainApp"/>, document.getElementById('app'))
