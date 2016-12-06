@@ -62,12 +62,68 @@ class Map extends React.Component {
             center: myLatlng
         }
         window.map = new google.maps.Map(document.getElementById('map'), mapOptions)
-    }
+        map = window.map
+
+// ---------------------- BEGIN AUTOCOMPLETE SEARCHBAR TEST ------------------------------------------
 
 
-  render(){
+      // Create the search box and link it to the UI element.
+       var input = document.getElementById('pac-input');
+
+        var autocomplete = new google.maps.places.Autocomplete(input);
+        autocomplete.bindTo('bounds', map);
+
+        map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+
+        var infowindow = new google.maps.InfoWindow();
+        var marker = new google.maps.Marker({
+          map: map
+        });
+        marker.addListener('click', function() {
+          infowindow.open(map, marker);
+        });
+
+        autocomplete.addListener('place_changed', function() {
+          infowindow.close();
+          var place = autocomplete.getPlace();
+          if (!place.geometry) {
+            return;
+          }
+
+          if (place.geometry.viewport) {
+            map.fitBounds(place.geometry.viewport);
+          } else {
+            map.setCenter(place.geometry.location);
+            map.setZoom(17);
+          }
+
+          // Set the position of the marker using the place ID and location.
+          marker.setPlace({
+            placeId: place.place_id,
+            location: place.geometry.location
+          });
+          marker.setVisible(true);
+
+          //Access data on selected location
+          console.log("Place Name:", place.name)
+          console.log("PLACE ID:", place.place_id)
+          console.log("Place Location:", place.geometry.location)
+          console.log("Place Latitude:", place.geometry.location.lat())
+          console.log("Place Longitude:", place.geometry.location.lng())
+          console.log("Formatted Address:", place.formatted_address)
+          
+        });
+      
+// ---------------------- END SEARCHBAR AUTOCOMPLETE TEST --------------------------------------
+
+}
+
+  render() {
     return (
-      <div style={{width: "66vw", height: "80vh"}} id="map"></div>
+      <div>
+        <input id="pac-input" class="controls" type="text" placeholder="Search Box" />
+        <div style={{width: "66vw", height: "80vh"}} id="map"></div>
+      </div>
     )
   }
 }
