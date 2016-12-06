@@ -86,6 +86,7 @@ function EventList (props) {
             )
           })
         }
+
       </div>
     )
 }
