@@ -1,13 +1,3 @@
-
-var dummyData = [
-  {id:1, host: 'me', description:"cat party", start_time:"8:00PM", end_time:"900PM", address:"123 fakes street", locationName:"jakes house"},
-  {id:2 ,host: 'me2', description:"cat party2", start_time:"6:00PM", end_time:"8:30PM", address:"123344 Jim Doorrr", locationName: "Hat Parlor"},
-  {id:3,host: 'me3', description:"cat party3", start_time:"4:00PM", end_time:"10:00PM", address:"83834 Barn Ave.", locationName: "The park"},
-  {id:2 ,host: 'me4', description:"cat party2", start_time:"6:00PM", end_time:"8:30PM", address:"123344 Jim Doorrr", locationName: "Hat Parlor"},
-  {id:2 ,host: 'me5', description:"cat party2", start_time:"6:00PM", end_time:"8:30PM", address:"123344 Jim Doorrr", locationName: "Hat Parlor"}
-
-]
-
 window.marker = {}
 
 class App extends React.Component {
@@ -20,23 +10,6 @@ class App extends React.Component {
     }
   }
 
-  updateMap(map){
-    this.setState({map: map})
-    console.log("Map State Updated", this.state.map)
-  }
-
-  createMap() {
-        var myLatlng = new google.maps.LatLng(30.256729, -97.739650);
-        var myDiv = ReactDOM.findDOMNode(this);
-        var mapOptions = {
-              zoom: 14,
-              center: myLatlng
-          }
-          return new google.maps.Map(ReactDOM.findDOMNode(this), mapOptions)
-
-  }
-
-
   render(){
     return (
       <div>
@@ -47,14 +20,13 @@ class App extends React.Component {
           <ReactBootstrap.Row className="show-grid">
             {/* The column where the google map is located*/}
             <ReactBootstrap.Col md={8}>
-              <Map key="MAP" updateMap={this.updateMap.bind(this)}/>
+              <Map key="MAP" />
             </ReactBootstrap.Col>
             {/* The column where the events are located*/}
             <ReactBootstrap.Col md={4}>
-              <EventList key="Events" users={this.state.users} events={this.state.events} map={this.state.map}/>
+              <EventList key="Events" users={this.state.users} events={this.state.events} />
             </ReactBootstrap.Col>
           </ReactBootstrap.Row>
-
         </ReactBootstrap.Grid>
       </div>
     )
@@ -91,10 +63,7 @@ class Map extends React.Component {
             zoom: 14,
             center: myLatlng
         }
-        this.setState({map: new google.maps.Map(ReactDOM.findDOMNode(this), mapOptions)})
-
-        this.state.updateMap(this.state.map)
-
+        window.map = new google.maps.Map(document.getElementById('map'), mapOptions)
     }
 
 
@@ -107,14 +76,13 @@ class Map extends React.Component {
 
 
 function EventList (props) {
-  console.log("EventList Props", props)
 
     return (
       <div className="eventlist">
         {
           props.events.map(function(event){
             return (
-              <Event users={props.users} event={event} map={props.map}/>
+              <Event users={props.users} event={event} />
             )
           })
         }
@@ -125,7 +93,6 @@ function EventList (props) {
 class Event extends React.Component {
   constructor(props){
     super(props)
-    // console.log("Event props", props)
     this.state = {
       creator: props.event.creator,
       id: props.event.id,
@@ -134,37 +101,47 @@ class Event extends React.Component {
       endTime: props.event.endTime,
       latitude: props.event.lat,
       longitude: props.event.long,
-      map: props.map,
-      users: props.users
+      users: props.users,
+      marker: null
     }
   }
 
-  render(){
-    var context = this
-    //set current event's gps coordinates
-    var gpsCoords = new google.maps.LatLng(this.state.latitude, this.state.longitude);
-    console.log("this.state.map", this.state.map)
-    window.marker[this.state.id] = new google.maps.Marker({
+componentDidMount () {
+  //set current event's gps coordinates
+  var gpsCoords = new google.maps.LatLng(this.state.latitude, this.state.longitude);
+    
+    //set marker state to a new Google Maps Marker (pin)
+    this.setState({marker: new google.maps.Marker({
         id: this.state.id,
         position: gpsCoords,
         title: this.state.description,
-        map: this.state.map
-    });
+        map: window.map
+    })
+  })
+      
+}
 
-    window.marker[this.state.id].addListener('click', function() {
-        // map.setCenter(this.getPosition());
-        window.location.href = window.location.href.split('#')[0] + '#' + this.state.id;
+
+
+  render() {
+
+    //if marker is already set to the state, then add click listener
+    if(this.state.marker) {
+      this.state.marker.addListener('click', function() {
+        //link each pin to its corresponding Event in the EventList
+        window.location.href = window.location.href.split('#')[0] + '#' + this.id;
         //reset activeEvent class assignments
         $('.event').removeClass('activeEvent');
         //change background color of selected event
-        $('#' + this.state.id).addClass('activeEvent');
-    })
+        $('#' + this.id).addClass('activeEvent');
+      })
+    }
 
     return (
       <div className="event" id={this.state.id}>
         <p className="eventText">Host: {this.state.users[this.state.creator].name}</p>
-        <p className="eventText">Start Time: {context.state.startTime}  End Time: {context.state.endTime}</p>
-        <p className="eventText">Description: {context.state.description}</p>
+        <p className="eventText">Start Time: {this.state.startTime}  End Time: {this.state.endTime}</p>
+        <p className="eventText">Description: {this.state.description}</p>
       </div>
     )
   }
