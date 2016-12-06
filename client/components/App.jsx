@@ -133,6 +133,7 @@ function EventList (props) {
 
     return (
       <div className="eventlist">
+      <CreateEventForm />
         {
           props.events.map(function(event){
             return (
@@ -288,7 +289,11 @@ const CreateEventForm = React.createClass({
 
            <div class="form-group">
               <div class="col-sm-offset-2 col-sm-10">
-                <button type="submit" class="btn btn-large primary" onClick={this.close}>Create a Human</button>
+              <ReactBootstrap.Button md={4}
+                  bsStyle="primary btn-block"
+                  bsSize="large"
+                  onClick={this.close}
+                >Create Your Human</ReactBootstrap.Button>
               </div>
             </div>
 
