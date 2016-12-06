@@ -50,15 +50,13 @@ class Map extends React.Component {
   constructor (props) {
     super()
     this.state = {
-      map: null,
-      updateMap: props.updateMap
     }
   }
 
   componentDidMount () {
 
       var myLatlng = new google.maps.LatLng(30.256729, -97.739650);
-      var myDiv = ReactDOM.findDOMNode(this);
+      // var myDiv = ReactDOM.findDOMNode(this);
       var mapOptions = {
             zoom: 14,
             center: myLatlng
@@ -112,13 +110,27 @@ componentDidMount () {
   var gpsCoords = new google.maps.LatLng(this.state.latitude, this.state.longitude);
     
     //set marker state to a new Google Maps Marker (pin)
-    this.setState({marker: new google.maps.Marker({
+
+    var marker = new google.maps.Marker({
         id: this.state.id,
         position: gpsCoords,
         title: this.state.description,
         map: window.map
     })
-  })
+
+    this.setState({marker: marker})
+
+    $('div #' + this.state.id).on('click', function() {
+        console.log("THIS IS CLICKED", this)
+          console.log("Marker? ", marker)
+          marker.setAnimation(google.maps.Animation.BOUNCE)
+
+          map.setCenter(marker.getPosition())
+          
+          $('.event').removeClass('activeEvent');
+          $('#' + this.id).addClass('activeEvent');
+
+      })
       
 }
 
@@ -136,6 +148,9 @@ componentDidMount () {
         //change background color of selected event
         $('#' + this.id).addClass('activeEvent');
       })
+
+
+
     }
 
     return (
