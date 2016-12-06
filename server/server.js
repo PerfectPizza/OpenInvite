@@ -57,7 +57,7 @@ app.use (bodyParser.json());
  app.post("/user/login", function(req, res) {
   var now = new Date().toISOString().slice(0, 19).replace('T', ' ');
   var fourtyEightHours = new Date(+new Date + 1.728e8).toISOString().slice(0, 19).replace('T', ' ');
-  var friends = req.body.friends.map( (friend) => friend.id)
+  // var friends = req.body.friends.map( (friend) => friend.id)
   // console.log(req.body);
    knex.select('*').from('users').where('id', req.body.id)
    .then(function(data){
@@ -71,16 +71,16 @@ app.use (bodyParser.json());
    .then(function(){
     knex.select('*').from('events').where('end_time', '>', now).andWhere('end_time', '<', fourtyEightHours)
     .then(function(data){
-      console.log(req.body.id);
-      // console.log("returned events", data);
-      // console.log(friends.indexOf(null));
+//       console.log(req.body.id);
+//       // console.log("returned events", data);
+//       // console.log(friends.indexOf(null));
 
-//PICK UP HERE WITH FILTRATION BEFORE SENDING BACK
-      var events = data.filter( (event) => friends.indexOf(event.creator_id) !== -1
-        || event.creator_id === req.body.id
-        )
-      console.log("events being sent back: ", events);
-      res.json(events);
+// //PICK UP HERE WITH FILTRATION BEFORE SENDING BACK
+//       var events = data.filter( (event) => friends.indexOf(event.creator_id) !== -1
+//         || event.creator_id === req.body.id
+//         )
+//       console.log("events being sent back: ", events);
+      res.json(data);
     })
   })
 });
