@@ -36,6 +36,7 @@ app.use (bodyParser.json());
     browserify('./client/index.js', {
     transform: [ [ require('babelify'), { presets: ["es2015", "react"] } ] ]
   })
+  )
 
  app.get('/facebookLogin', function(req, res){
     res.sendFile(path.join(__dirname, '../client/facebookLogin.html'));
