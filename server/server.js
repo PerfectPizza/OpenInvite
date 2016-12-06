@@ -60,6 +60,7 @@ app.use (bodyParser.json());
   var fourtyEightHours = new Date(+new Date + 1.728e8).toISOString().slice(0, 19).replace('T', ' ');
   // var friends = req.body.friends.map( (friend) => friend.id)
   // console.log(req.body);
+  var result = {}
    knex.select('*').from('users').where('id', req.body.id)
    .then(function(data){
     // console.log('hello data', data.length)
@@ -71,17 +72,15 @@ app.use (bodyParser.json());
    })
    .then(function(){
     knex.select('*').from('events').where('end_time', '>', now).andWhere('end_time', '<', fourtyEightHours)
-    .then(function(data){
-//       console.log(req.body.id);
-//       // console.log("returned events", data);
-//       // console.log(friends.indexOf(null));
-
-// //PICK UP HERE WITH FILTRATION BEFORE SENDING BACK
-//       var events = data.filter( (event) => friends.indexOf(event.creator_id) !== -1
-//         || event.creator_id === req.body.id
-//         )
-//       console.log("events being sent back: ", events);
-      res.json(data);
+   .then(function(data){
+    result.allevents = data;
+    result.events_created = data.filter(function(x){return x.creator_id === req.body.id})
+                                .map(function(y){return y.id});
+    knex.select('event_id').from('events_users').where('user_id', req.body.id)
+    .then(function(events_attending){
+      result.events_attending = events_attending;
+      res.json(result);
+      })
     })
   })
 });
@@ -114,7 +113,7 @@ app.post("/events/update", function(req, res){
   });
 
  app.post("/events/new", function(req, res) {
-  //will send back new object with event id
+  //will send back event id
   knex.insert(req.body).into('events').returning('id')
   .then(function(data){
     console.log('new row', data);
