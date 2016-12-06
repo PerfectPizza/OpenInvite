@@ -30,7 +30,7 @@ exports.up = (knex, Promise) => Promise.all([
     //table.increments();
     // table.integer('user_id').unsigned();
     // table.foreign('user_id').references('id').inTable('users'); //integer key with users id
-    table.uuid('id');
+    table.increments('id');
     table.string('user_id');
     table.integer('event_id');
 
