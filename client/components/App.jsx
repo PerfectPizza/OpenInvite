@@ -108,15 +108,22 @@ class Event extends React.Component {
 componentDidMount () {
   //set current event's gps coordinates
   var gpsCoords = new google.maps.LatLng(this.state.latitude, this.state.longitude);
+<<<<<<< HEAD
 
     //set marker state to a new Google Maps Marker (pin)
 
     var marker = new google.maps.Marker({
+=======
+    
+    //set marker state to a new Google Maps Marker (pin)
+    this.setState({marker: new google.maps.Marker({
+>>>>>>> Markers rendering and marker click handler linked to corresponding Event in EventList
         id: this.state.id,
         position: gpsCoords,
         title: this.state.description,
         map: window.map
     })
+<<<<<<< HEAD
 
     this.setState({marker: marker})
 
@@ -133,6 +140,13 @@ componentDidMount () {
 }
 
 
+=======
+  })
+      
+}
+
+
+>>>>>>> Markers rendering and marker click handler linked to corresponding Event in EventList
 
   render() {
 
@@ -146,9 +160,12 @@ componentDidMount () {
         //change background color of selected event
         $('#' + this.id).addClass('activeEvent');
       })
+<<<<<<< HEAD
 
 
 
+=======
+>>>>>>> Markers rendering and marker click handler linked to corresponding Event in EventList
     }
 
     return (
