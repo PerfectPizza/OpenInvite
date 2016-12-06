@@ -11,17 +11,26 @@
   src="https://code.jquery.com/jquery-3.1.1.slim.min.js"
   integrity="sha256-/SIrNqv8h6QGKDuNoLGA4iret+kyesCkHGzVUUV0shc="
   crossorigin="anonymous"></script>
-  <script src="../node_modules/react/dist/react.js"></script>
-  <script src="../node_modules/react-dom/dist/react-dom.js"></script>
-  <script src="../node_modules/react-bootstrap/dist/react-bootstrap.min.js"></script>
+  <script src="node_modules/react/dist/react.js"></script>
+  <script src="node_modules/react-dom/dist/react-dom.js"></script>
+  <script src="node_modules/react-bootstrap/dist/react-bootstrap.min.js"></script>
   <!-- <script src="node_modules/lodash/lodash.js"></script> -->
 
 </head>
 <body>
   <h1 id="title">Open Invite</h1>
   <div id="app"></div>
-
-  <script src="assets/compiled/App.js"></script>
+  <script src="testData/dummyMapData.js"></script>
+  <script type="text/javascript">
+    //callback to queue React code to run after Google Map API is loaded
+    function runApp () {
+      var js = document.createElement('script');
+      js.src = 'assets/compiled/App.js';
+      document.body.appendChild(js);
+    }
+  </script>
+  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBPaV2vJO0JOul9Qs4Oi0fpzCEFW4oecfg&callback=runApp"></script>
+  <!-- <script async defer src="assets/compiled/App.js"></script> -->
   <script src="tools/tools.js"></script>
   <!-- <script src="../compiled/client/components/Map.js"></script> -->
   <!-- Example Script - compiled  -->

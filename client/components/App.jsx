@@ -8,12 +8,34 @@ var dummyData = [
 
 ]
 
+window.marker = {}
 
 class App extends React.Component {
   constructor(){
     super()
-    this.state = {}
+    this.state = {
+      events: window.events,
+      users: window.users,
+      map: null
+    }
   }
+
+  updateMap(map){
+    this.setState({map: map})
+    console.log("Map State Updated", this.state.map)
+  }
+
+  createMap() {
+        var myLatlng = new google.maps.LatLng(30.256729, -97.739650);
+        var myDiv = ReactDOM.findDOMNode(this);
+        var mapOptions = {
+              zoom: 14,
+              center: myLatlng
+          }
+          return new google.maps.Map(ReactDOM.findDOMNode(this), mapOptions)
+
+  }
+
 
   render(){
     return (
@@ -25,11 +47,11 @@ class App extends React.Component {
           <ReactBootstrap.Row className="show-grid">
             {/* The column where the google map is located*/}
             <ReactBootstrap.Col md={8}>
-              <Map key="MAP"/>
+              <Map key="MAP" updateMap={this.updateMap.bind(this)}/>
             </ReactBootstrap.Col>
             {/* The column where the events are located*/}
             <ReactBootstrap.Col md={4}>
-              <EventList key="Events" events={dummyData}/>
+              <EventList key="Events" users={this.state.users} events={this.state.events} map={this.state.map}/>
             </ReactBootstrap.Col>
           </ReactBootstrap.Row>
 
@@ -53,31 +75,46 @@ function NavBar () {
 }
 
 class Map extends React.Component {
-  constructor () {
+  constructor (props) {
     super()
-    this.state = {}
+    this.state = {
+      map: null,
+      updateMap: props.updateMap
+    }
   }
+
+  componentDidMount () {
+
+      var myLatlng = new google.maps.LatLng(30.256729, -97.739650);
+      var myDiv = ReactDOM.findDOMNode(this);
+      var mapOptions = {
+            zoom: 14,
+            center: myLatlng
+        }
+        this.setState({map: new google.maps.Map(ReactDOM.findDOMNode(this), mapOptions)})
+
+        this.state.updateMap(this.state.map)
+
+    }
+
 
   render(){
     return (
-      <div>
-        <span>
-          <img className="mapPicture" src={"http://www.denisbecaud.net/cartes/cartrome.jpg"} alt="alttext"/>
-        </span>
-      </div>
+      <div style={{width: "66vw", height: "80vh"}} id="map"></div>
     )
   }
 }
 
 
 function EventList (props) {
+  console.log("EventList Props", props)
 
     return (
       <div className="eventlist">
         {
           props.events.map(function(event){
             return (
-              <Event event={event}/>
+              <Event users={props.users} event={event} map={props.map}/>
             )
           })
         }
@@ -88,29 +125,50 @@ function EventList (props) {
 class Event extends React.Component {
   constructor(props){
     super(props)
+    // console.log("Event props", props)
     this.state = {
-      host: this.props.event.host,
-      description: this.props.event.description,
-      startTime: this.props.event.start_time,
-      endTime: this.props.event.end_time,
-      address: this.props.event.address,
-      locationName: this.props.event.locationName
+      creator: props.event.creator,
+      id: props.event.id,
+      description: props.event.description,
+      startTime: props.event.startTime,
+      endTime: props.event.endTime,
+      latitude: props.event.lat,
+      longitude: props.event.long,
+      map: props.map,
+      users: props.users
     }
   }
 
   render(){
     var context = this
+    //set current event's gps coordinates
+    var gpsCoords = new google.maps.LatLng(this.state.latitude, this.state.longitude);
+    console.log("this.state.map", this.state.map)
+    window.marker[this.state.id] = new google.maps.Marker({
+        id: this.state.id,
+        position: gpsCoords,
+        title: this.state.description,
+        map: this.state.map
+    });
+
+    window.marker[this.state.id].addListener('click', function() {
+        // map.setCenter(this.getPosition());
+        window.location.href = window.location.href.split('#')[0] + '#' + this.state.id;
+        //reset activeEvent class assignments
+        $('.event').removeClass('activeEvent');
+        //change background color of selected event
+        $('#' + this.state.id).addClass('activeEvent');
+    })
+
     return (
-      <div className="event">
-        <p className="eventText">Location: {context.state.locationName}</p>
-        <p className="eventText">Host: {context.state.host}</p>
+      <div className="event" id={this.state.id}>
+        <p className="eventText">Host: {this.state.users[this.state.creator].name}</p>
         <p className="eventText">Start Time: {context.state.startTime}  End Time: {context.state.endTime}</p>
-        <p className="eventText">Address: {context.state.address}</p>
         <p className="eventText">Description: {context.state.description}</p>
       </div>
     )
   }
-
 }
 
-ReactDOM.render(<App key="MainApp"/>,document.getElementById('app'))
+
+ReactDOM.render(<App key="MainApp"/>, document.getElementById('app'))
