@@ -35,7 +35,7 @@ h1 {
 }
 
 
-/* ---------------- AUTOCOMPLETE TEST STYLES --------------- */
+/* ---------------- Searchbar/Autocomplete Styles --------------- */
 
 .controls {
     margin-top: 10px;
@@ -48,7 +48,7 @@ h1 {
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
 }
 
-#pac-input {
+#pac-input2 {
     background-color: #fff;
     font-family: Roboto;
     font-size: 15px;
@@ -57,6 +57,7 @@ h1 {
     padding: 0 11px 0 13px;
     text-overflow: ellipsis;
     width: 300px;
+    top:10px !important;
 }
 
 #pac-input:focus {
@@ -65,6 +66,13 @@ h1 {
 
 .pac-container {
     font-family: Roboto;
+    background-color: #FFF;
+    z-index: 1051 !important;
+    position: fixed;
+    display: inline-block;
+    float: left;
+    margin: 20px;
+    width: 50%;
 }
 
 #type-selector {
@@ -82,3 +90,10 @@ h1 {
 #target {
     width: 345px;
 }
+
+.modal{
+    z-index: 20;   
+}
+.modal-backdrop{
+    z-index: 10;        
+}​
