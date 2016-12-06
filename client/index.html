@@ -27,9 +27,11 @@
   <script src="testData/dummyMapData.js"></script>
   <script type="text/javascript">
     //callback to queue React code to run after Google Map API is loaded
+
     function runApp () {
       var js = document.createElement('script');
-      js.src = 'assets/compiled/App.js';
+      js.src = '/app-bundle.js'
+      //js.src = 'assets/compiled/App.js';
       document.body.appendChild(js);
     }
   </script>
