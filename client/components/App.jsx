@@ -140,12 +140,16 @@ componentDidMount () {
         $('#' + this.id).addClass('activeEvent');
       })
     }
-
+    //need to pass in user prop
     return (
+
       <div className="event" id={this.state.id}>
+        <div>
         <p className="eventText">Host: {this.state.users[this.state.creator].name}</p>
         <p className="eventText">Start Time: {this.state.startTime}  End Time: {this.state.endTime}</p>
         <p className="eventText">Description: {this.state.description}</p>
+        </div>
+        <EventAttendanceForm creator={this.state.creator} event={this.state.description} user={this.state.user} eventId={this.props.id} />
       </div>
     )
   }
@@ -332,6 +336,292 @@ const CreateEventForm = React.createClass({
         </ReactBootstrap.Modal>
       </div>
     )
+  }
+})
+
+
+const EventAttendanceForm = React.createClass({
+  getInitialState() {
+    //axios.get('/events/attendants', function(friends){
+      return { showModal: false,
+             attending: false,
+             eventOwner: this.props.creator,
+             attendingFriends: null,//array of the friends who are attending,
+             eventDescription: this.props.event,//name of event or some sort of evidence of what the event is
+             eventId: this.props.eventId,
+             user: window.user
+           }
+   // })
+    
+  },
+
+  attendChange(){
+    this.setState({attending: !(this.state.attending)})
+    
+  },
+
+  handleSubmit(e){
+    e.preventDefault()
+    this.setState({attending: !(this.state.attending)})
+    var reqType;
+    var reqData = {
+        eventId: this.state.eventId,
+        user: this.state.user,
+        attending: this.state.attending}
+    if(this.state.attending === false){
+      reqType =  '/POST'
+    } else {
+      reqType = '/DELETE'
+    }
+      $.ajax({
+        type: reqType,
+        url: '/events/attendants',
+        data: reqData,
+        dataType:  'application/json'
+        }).then(function (response) {
+        console.log("You are now attending", response);
+      })     
+  },
+
+  close() {
+    console.log(this.state.attending);
+    this.setState({attending: !(this.state.attending)})
+    console.log(this.state.attending);
+    this.setState({ showModal: false });
+    $('.pac-container').hide()
+  },
+
+  open() {
+    this.setState({ showModal: true });
+    $('.pac-container').hide()
+  },
+
+  render() {
+    var dummyFriends = ['Friend 1', 'Friend 2', 'Friend 3', 'Friend 4', 'Friend 5']
+    if(this.state.attending === false){
+          return (
+
+
+      <div>
+        <ReactBootstrap.Button md={4}
+          bsStyle="primary btn-block"
+          bsSize="large"
+          onClick={this.open}
+        >
+          Attend Event
+        </ReactBootstrap.Button>
+        <ReactBootstrap.Modal
+          show={this.state.showModal}
+          onHide={this.close}
+          aria-labelledby="ModalHeader"
+        >
+          <ReactBootstrap.Modal.Header closeButton>
+            <ReactBootstrap.Modal.Title id='ModalHeader'></ReactBootstrap.Modal.Title>
+          </ReactBootstrap.Modal.Header>
+          <ReactBootstrap.Modal.Body>
+
+            <div className="attendThisEventDiv">
+
+            <form class="form-horizontal" onSubmit={this.handleSubmit} id="attendThisEventForm"  role="form">
+
+            <div class="eventOwnerDiv">
+              Host: {this.state.eventOwner}
+            </div>
+            <div class="eventNameDiv">
+              Event: {this.state.eventDescription}
+            </div>
+
+
+            <div class="attendingFriendList">
+              <label for="name" class="cols-sm-2 control-label">Friends Who Are Going</label>
+              <div class="cols-sm-10">
+            
+                  <div>
+                    {dummyFriends.map(function(friend){
+                      //this.state.attending.map()
+                      return <div>{friend}</div>
+                    })
+                   }
+                  </div>
+              </div>
+            </div>
+
+            
+            <div class="form-group">
+              <div class="col-sm-offset-2 col-sm-10">
+              <ReactBootstrap.Button md={4}
+                  bsStyle="primary btn-block"
+                  bsSize="large"
+                  type="submit"
+                  onClick={this.close}
+                >Attend Event                
+              </ReactBootstrap.Button>
+              </div>
+            </div>
+
+          </form>
+          </div>
+          </ReactBootstrap.Modal.Body>
+        </ReactBootstrap.Modal>
+      </div>
+    )
+
+
+
+  } else {
+
+              return (
+
+
+      <div>
+        <ReactBootstrap.Button md={4}
+          bsStyle="primary btn-block"
+          bsSize="large"
+          onClick={this.open}
+        >
+          Going!
+        </ReactBootstrap.Button>
+        <ReactBootstrap.Modal
+          show={this.state.showModal}
+          onHide={this.close}
+          aria-labelledby="ModalHeader"
+        >
+          <ReactBootstrap.Modal.Header closeButton>
+            <ReactBootstrap.Modal.Title id='ModalHeader'></ReactBootstrap.Modal.Title>
+          </ReactBootstrap.Modal.Header>
+          <ReactBootstrap.Modal.Body>
+
+            <div className="attendThisEventDiv">
+
+            <form class="form-horizontal" onSubmit={this.handleSubmit} id="attendThisEventForm"  role="form" >
+
+
+            <div class="eventOwnerDiv">
+              Host: {this.state.eventOwner}
+            </div>
+            <div class="eventNameDiv">
+              Event: {this.state.eventDescription}
+            </div>
+
+
+            <div class="attendingFriendList">
+              <label for="name" class="cols-sm-2 control-label">Friends Who Are Going</label>
+              <div class="cols-sm-10">
+            
+                  <div>
+                    {dummyFriends.map(function(friend){
+                      return <div>{friend}</div>
+                    })
+                   }
+                  </div>
+              </div>
+            </div>
+            
+            <div class="form-group">
+              <div class="col-sm-offset-2 col-sm-10">
+              <ReactBootstrap.Button md={4}
+                  bsStyle="primary btn-block"
+                  bsSize="large"
+                  type="submit"
+                  onClick={this.close}
+                >Can't Make It
+              </ReactBootstrap.Button>
+              </div>
+            </div>
+
+          </form>
+          </div>
+          </ReactBootstrap.Modal.Body>
+        </ReactBootstrap.Modal>
+      </div>
+    )
+
+//Owner Edit form
+
+
+    // return (
+    //   <div>
+    //     <ReactBootstrap.Button md={4}
+    //       bsStyle="primary btn-block"
+    //       bsSize="large"
+    //       onClick={this.open}
+    //     >
+    //       Edit Event
+    //     </ReactBootstrap.Button>
+    //     <ReactBootstrap.Modal
+    //       show={this.state.showModal}
+    //       onHide={this.close}
+    //       aria-labelledby="ModalHeader"
+    //     >
+    //       <ReactBootstrap.Modal.Header closeButton>
+    //         <ReactBootstrap.Modal.Title id='ModalHeader'></ReactBootstrap.Modal.Title>
+    //       </ReactBootstrap.Modal.Header>
+    //       <ReactBootstrap.Modal.Body>
+
+    //         <div className="editFormDiv">
+    //                                                   //THIS IS A PUT AND A DELETE FORM   //CHANGE THE ACTION TO THE CORRECT ROUTE
+    //         <form class="form-horizontal" id="editEventForm" method="put" role="form" action="/events/new">
+
+
+
+    //         <div class="eventNameDiv">
+    //           Event: {this.state.eventName}
+    //         </div>
+
+
+    //         <div class="form-group">
+    //           <label for="name" class="cols-sm-2 control-label">Friends Who Are Going</label>
+    //           <div class="cols-sm-10">
+    //               <input type="text" class="form-control" name="friendsAttending" id="friendsAttending"  placeholder="list of people who are going"/>
+    //               <div>
+    //                 {dummyFriends.map(function(friend){
+    //                   return <div>{friend}</div>
+    //                 })
+    //                }
+    //               </div>
+    //           </div>
+    //         </div>
+
+    //        <div class="form-group">
+    //           <div class="col-sm-offset-2 col-sm-10">
+    //           <ReactBootstrap.Button md={4}
+    //               bsStyle="primary btn-block"
+    //               bsSize="large"
+    //               onClick={this.editForm}
+    //             >Edit Event</ReactBootstrap.Button>
+    //           </div>
+    //         </div>
+
+    //         <div class="form-group">
+    //           <div class="col-sm-offset-2 col-sm-10">
+    //           <ReactBootstrap.Button md={4}
+    //               bsStyle="primary btn-block"
+    //               bsSize="large"
+    //               onClick={this.cancelEvent()}
+    //             >Cancel Event</ReactBootstrap.Button>
+    //           </div>
+    //         </div>
+
+    //       </form>
+    //       </div>
+    //       </ReactBootstrap.Modal.Body>
+    //     </ReactBootstrap.Modal>
+    //   </div>
+    // )
+
+
+
+
+
+
+
+
+
+
+
+
+  }
+    
   }
 })
 
