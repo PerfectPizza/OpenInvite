@@ -57,7 +57,7 @@ class Map extends React.Component {
   render() {
     return (
       <div>
-        <div style={{width: "66vw", height: "80vh"}} id="map"></div>
+        <div style={{width: "100vw", height: "100vh"}} id="map"></div>
       </div>
     )
   }
@@ -68,7 +68,8 @@ function EventList (props) {
 var attendance;
     return (
       <div className="eventlist">
-      <CreateEventForm />
+      <CreateEventForm updateApp={props.updateApp}/>
+
         {
           props.events.allevents.map(function(event){
             //Order matters here so that only one of the three attendance states is reached:
@@ -109,8 +110,8 @@ class Event extends React.Component {
       creator: window.friends[props.event.creator_id] || window.user.name,
       id: props.event.id,
       description: props.event.description,
-      startTime: props.event.start_time,
-      endTime: props.event.end_time,
+      startTime: props.event.start_time.replace('T', ' ').replace('.', ' ').split(' ')[0]+' '+'2016-12-09T05:59:59.000Z'.replace('T', ' ').replace('.', ' ').split(' ')[1],
+      endTime: props.event.end_time.replace('T', ' ').replace('.', ' ').split(' ')[0]+' '+'2016-12-09T05:59:59.000Z'.replace('T', ' ').replace('.', ' ').split(' ')[1],
       latitude: Number(props.event.latitude),
       longitude: Number(props.event.longitude),
       users: window.users,
@@ -165,15 +166,13 @@ componentDidMount () {
 
     return (
 
-      <div className="event" id={this.state.id}>
        <div className="event" id={this.state.id}>
-        <p className="attendance">attendance: {this.state.attendance}</p>
         <p className="eventText">Host: {this.state.creator}</p>
-        <p className="eventText">Start Time: {this.state.startTime}  End Time: {this.state.endTime}</p>
+        <p className="eventText">Start Time: {this.state.startTime}</p>
+        <p className="eventText"> End Time: {this.state.endTime}</p>
         <p className="eventText">Description: {this.state.description}</p>
         </div>
-        <EventAttendanceForm creator={this.state.creator} event={this.state.description} user={this.state.user} eventId={this.props.id} />
-      </div>
+        /*<EventAttendanceForm updateApp={this.props.updateApp} creator={this.state.creator} event={this.state.description} user={this.state.user} eventId={this.props.id} />*/
     )
   }
 }
@@ -250,6 +249,7 @@ const CreateEventForm = React.createClass({
   closeAndPost() {
     this.setState({ showModal: false});
     var $form = $('#createEventForm')
+    var updateApp = props.updateApp;
     var eventObj = {
       address: window.place.address,
       latitude: window.place.latitude.toString(),
@@ -268,7 +268,7 @@ const CreateEventForm = React.createClass({
       data: JSON.stringify({user_id: window.user.id,event: eventObj}),
       contentType: 'application/json',
       success: function(postResponse){
-        console.log(postResponse);
+        console.log("post response", postResponse)
       },
     });
   },
@@ -276,20 +276,23 @@ const CreateEventForm = React.createClass({
   render() {
     return (
       <div>
+       <FacebookButton fb={FB}/>
+
         <ReactBootstrap.Button md={4}
-          bsStyle="primary btn-block"
+          bsStyle="btn-circle"
           bsSize="large"
           onClick={this.open}
         >
-          Create New Human
+        +
         </ReactBootstrap.Button>
+
         <ReactBootstrap.Modal
           show={this.state.showModal}
           onHide={this.close}
           aria-labelledby="ModalHeader"
         >
           <ReactBootstrap.Modal.Header closeButton>
-            <ReactBootstrap.Modal.Title id='ModalHeader'></ReactBootstrap.Modal.Title>
+            <ReactBootstrap.Modal.Title id='ModalHeader'>Send out an Open Invite</ReactBootstrap.Modal.Title>
           </ReactBootstrap.Modal.Header>
           <ReactBootstrap.Modal.Body>
 
@@ -362,7 +365,63 @@ const CreateEventForm = React.createClass({
   }
 })
 
+class FacebookButton extends React.Component {
+   constructor(props) {
+      super(props);
 
+      this.FB = props.fb;
+
+      this.state = {
+         message: ""
+      };
+
+   }
+
+   componentDidMount() {
+      this.FB.Event.subscribe('auth.logout',
+         this.onLogout.bind(this));
+      this.FB.Event.subscribe('auth.statusChange',
+         this.onStatusChange.bind(this));
+   }
+
+   onStatusChange(response) {
+      console.log( response );
+      var self = this;
+
+      if( response.status === "connected" ) {
+         this.FB.api('/me', function(response) {
+            var message = "Welcome " + response.name;
+            self.setState({
+               message: message
+            });
+         })
+      }
+   }
+
+   onLogout(response) {
+      this.setState({
+         message: ""
+      });
+   }
+
+   render() {
+      return (
+         <div>
+            <div
+               className="fb-login-button"
+               data-max-rows="1"
+               data-size="xlarge"
+               data-auto-logout-link="true"
+               >
+            </div>
+            <div>{this.state.message}</div>
+         </div>
+      );
+   }
+};
+
+
+/*
 const EventAttendanceForm = React.createClass({
   getInitialState() {
     //axios.get('/events/attendants', function(friends){
@@ -568,7 +627,7 @@ const EventAttendanceForm = React.createClass({
         </ReactBootstrap.Modal>
       </div>
     )
-
+*/
 //Owner Edit form
 
 
@@ -653,9 +712,9 @@ const EventAttendanceForm = React.createClass({
 
 
 
-  }
+//   }
 
-  }
-})
+//   }
+// })
 
 ReactDOM.render(<App key="MainApp"/>, document.getElementById('app'))

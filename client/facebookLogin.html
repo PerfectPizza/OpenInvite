@@ -18,6 +18,7 @@ PUT THE DATA IN TO THE STATE WHERE IT NEEDS TO GO
     <title>Open Invite</title>
     <!-- Bootstrap Core CSS -->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+
     <!-- Landing Page CSS -->
     <link href="assets/styles/full-slider.css" rel="stylesheet">
     <!--Main CSS-->
@@ -28,6 +29,10 @@ PUT THE DATA IN TO THE STATE WHERE IT NEEDS TO GO
     <script src="../node_modules/react-bootstrap/dist/react-bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react-bootstrap/0.30.7/react-bootstrap.min.js"></script>
     <script src="testData/dummyMapData.js"></script>
+
+    <script type="text/javascript" src="http://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.4&appId=986622341380400"></script>
+    <script type="text/javascript" src="bundle.js"></script>
+
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -130,7 +135,15 @@ function cascadeOfInformation () {
                   contentType: "application/json",
                   success: function(responseUser){
                     $('.login, .carousel').fadeOut();
-                    $('body').css({'backgroundColor':'white'})
+                    $('body').css({'backgroundColor':'white'});
+                    $('#fb-root').append('<fb:login-button>');
+                    (function(d, s, id) {
+                      var js, fjs = d.getElementsByTagName(s)[0];
+                      if (d.getElementById(id)) return;
+                      js = d.createElement(s); js.id = id;
+                      js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.8&appId=1128845777235850";
+                      fjs.parentNode.insertBefore(js, fjs);
+                    }(document, 'script', 'facebook-jssdk'));
                     console.log("response from user/login POST", responseUser)
                     window.userEvents = responseUser;
                     $.getScript( "https://maps.googleapis.com/maps/api/js?key=AIzaSyBPaV2vJO0JOul9Qs4Oi0fpzCEFW4oecfg&libraries=places&callback=runApp", function( data, textStatus, jqxhr ) {

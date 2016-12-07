@@ -20,21 +20,39 @@ h1 {
 }
 
 .event {
-    border: 2px solid black;
-    border-radius: 3px;
+    border-radius: 15px;
     margin-bottom: 5px;
-    background: lightgrey;
+    background: rgba(122, 207, 214, .75);
+    color: rgba(241, 240, 238, .75);
 }
 
 .eventText {
     text-align: center;
+    color: black;
 }
 
 .activeEvent {
-    background: pink !important;
+    background: rgba(224, 71, 76, 1) !important;
 }
 
+.btn-btn-circle{
+  background: rgba(224, 71, 76, .75) !important;
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  padding: 6px 0;
+  font-size: 12px;
+  line-height: 1.428571429;
+  border-radius: 15px;
+  margin-bottom: 10px;
+  position: relative;
+  left:250px;
+  z-index: 2;
+}
 
+.btn-primary{
+    background: rgba(122, 207, 214, 1)
+}
 /* ---------------- Searchbar/Autocomplete Styles --------------- */
 
 .controls {
@@ -92,8 +110,8 @@ h1 {
 }
 
 .modal{
-    z-index: 20;   
+    z-index: 20;
 }
 .modal-backdrop{
-    z-index: 10;        
+    z-index: 10;
 }​
