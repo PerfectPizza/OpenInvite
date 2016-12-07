@@ -6,6 +6,7 @@
  var app = express();
  var bodyParser = require('body-parser')
  var connection = require('../knexfile.js');
+ // var Promise = require("bluebird");
 //knexfile();
 // Serves up a browserified version of our index, with access to any of it's dependencies
 // ...in theory
@@ -44,9 +45,6 @@ app.use (bodyParser.json());
  });
 
  app.get('/events', function(req,res){
-  var now = new Date().toISOString().slice(0, 19).replace('T', ' ');
-  var fourtyEightHours = new Date(+new Date + 1.728e8).toISOString().slice(0, 19).replace('T', ' ');
-
     knex.select('*').from('events').where('end_time', '>', now).andWhere('end_time', '<', fourtyEightHours)
     .then(function(data){
         res.json(data);
@@ -56,35 +54,21 @@ app.use (bodyParser.json());
   });
 
  app.post("/user/login", function(req, res) {
-  var now = new Date().toISOString().slice(0, 19).replace('T', ' ');
-  var fourtyEightHours = new Date(+new Date + 1.728e8).toISOString().slice(0, 19).replace('T', ' ');
   // var friends = req.body.friends.map( (friend) => friend.id)
   // console.log(req.body);
-  var result = {}
    knex.select('*').from('users').where('id', req.body.id)
    .then(function(data){
     // console.log('hello data', data.length)
     if(data.length === 0){
       // console.log(req.body);
-      knex.insert(req.body).into('users')
+      knex.insert(req.body.user).into('users')
       .then( console.log('new user added!') )
       }
    })
-   .then(function(){
-    knex.select('*').from('events').where('end_time', '>', now).andWhere('end_time', '<', fourtyEightHours)
-   .then(function(data){
-    result.allevents = data;
-    result.events_created = data.filter(function(x){return x.creator_id === req.body.id})
-                                .map(function(y){return y.id});
-    knex.select('event_id').from('events_users').where('user_id', req.body.id)
-    .then(function(events_attending){
-      result.events_attending = events_attending;
-      res.json(result);
-      })
-    })
-  })
+   .then(retreiveAll(req,res))
 });
 
+//
 app.post("/events/rsvp", function(req, res) {
   //takes request body
   //{user_id: 1234, event_id:6789}
@@ -139,6 +123,35 @@ app.post("/events/update", function(req, res){
   // });
 
  var port = process.env.PORT || 5000;
+
+
  app.listen(port, function() {
    console.log("Listening on " + port);
  });
+
+var retreiveAll = function(req, res){
+    var result = {};
+    var now = new Date().toISOString().slice(0, 19).replace('T', ' ');
+    var fourtyEightHours = new Date(+new Date + 1.728e8).toISOString().slice(0, 19).replace('T', ' ');
+    knex.select('*').from('events').where('end_time', '>', now).andWhere('end_time', '<', fourtyEightHours)
+    .then(function(data){
+
+    result.allevents = data;
+    result.events_created = data.filter(function(x){return x.creator_id === req.body.user.id})
+                                .map(function(y){return y.id});
+    knex.select('event_id').from('events_users').where('user_id', req.body.user.id)
+    .then(function(events_attending){
+      result.events_attending = events_attending;
+      res.json(result);
+      })
+    })
+  }
+
+
+
+
+
+
+
+
+
