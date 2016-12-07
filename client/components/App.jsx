@@ -4,8 +4,9 @@ class App extends React.Component {
   constructor(){
     super()
     this.state = {
-      events: window.events,
-      users: window.users
+      events: window.userEvents,
+      users: window.users,
+
     }
   }
 
@@ -64,7 +65,7 @@ class Map extends React.Component {
 
 
 function EventList (props) {
-
+var attendance; var counter;
     return (
       <div className="eventlist">
       <CreateEventForm />
@@ -92,7 +93,7 @@ function EventList (props) {
             }
 
             return (
-              <Event users={props.users} event={event} attendance={attendance} />
+              <Event updateApp={props.updateApp} users={props.users} event={event} attendance={attendance} />
             )
 
             })
@@ -166,9 +167,9 @@ componentDidMount () {
     return (
 
       <div className="event" id={this.state.id}>
-        <div>
+       <div className="event" id={this.state.id}>
         <p className="attendance">attendance: {this.state.attendance}</p>
-        <p className="eventText">Host: {this.state.users[this.state.creator].name}</p>
+        <p className="eventText">Host: {this.state.creator}</p>
         <p className="eventText">Start Time: {this.state.startTime}  End Time: {this.state.endTime}</p>
         <p className="eventText">Description: {this.state.description}</p>
         </div>
