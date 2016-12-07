@@ -127,14 +127,6 @@ componentDidMount () {
 }
 
 
-=======
-  })
-      
-}
-
-
->>>>>>> Markers rendering and marker click handler linked to corresponding Event in EventList
-
   render() {
 
     //if marker is already set to the state, then add click listener
@@ -147,15 +139,6 @@ componentDidMount () {
         //change background color of selected event
         $('#' + this.id).addClass('activeEvent');
       })
-<<<<<<< HEAD
-<<<<<<< HEAD
-
-
-
-=======
->>>>>>> Markers rendering and marker click handler linked to corresponding Event in EventList
-=======
->>>>>>> Fix pin bounce / Add updateApp function
     }
 
     return (
