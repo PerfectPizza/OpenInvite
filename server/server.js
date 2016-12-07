@@ -41,10 +41,6 @@ app.use (bodyParser.json());
     res.send(path.join(__dirname, '../client/index.html'));
    });
 
-app.get('/fuckaround', function(req,res){
-  res.send(path.join(__dirname, '../client/fuckaround.html'));
-})
-
  app.get('/facebookLogin', function(req, res){
     res.sendFile(path.join(__dirname, '../client/facebookLogin.html'));
  });
