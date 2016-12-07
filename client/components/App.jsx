@@ -87,7 +87,7 @@ var attendance;
                   attendance = "friend"
                 }
               })
-              window.userEvents.forEach(function(eventID){
+              window.userEvents.allevents.forEach(function(eventID){
                 if(eventID === event.id){
                   attendance = "attendee"
                 }
@@ -118,6 +118,7 @@ class Event extends React.Component {
       users: window.users,
       marker: null,
       attendance: props.attendance,
+      address: props.event.address
     }
   }
 
@@ -171,6 +172,7 @@ componentDidMount () {
         <p className="eventText">Host: {this.state.creator}</p>
         <p className="eventText">Start Time: {this.state.startTime}</p>
         <p className="eventText"> End Time: {this.state.endTime}</p>
+        <p className="eventText"> Location: {this.state.address}</p>
         <p className="eventText">Description: {this.state.description}</p>
         </div>
         /*<EventAttendanceForm updateApp={this.props.updateApp} creator={this.state.creator} event={this.state.description} user={this.state.user} eventId={this.props.id} />*/
@@ -250,7 +252,6 @@ const CreateEventForm = React.createClass({
   closeAndPost() {
     this.setState({ showModal: false});
     var $form = $('#createEventForm')
-    var updateApp = props.updateApp;
     var eventObj = {
       address: window.place.address,
       latitude: window.place.latitude.toString(),
@@ -270,6 +271,7 @@ const CreateEventForm = React.createClass({
       contentType: 'application/json',
       success: function(postResponse){
         console.log("post response", postResponse)
+        location.reload();
       },
     });
   },

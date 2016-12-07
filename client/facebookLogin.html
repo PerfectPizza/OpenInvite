@@ -153,10 +153,7 @@ function cascadeOfInformation () {
                     window.userEvents = responseUser;
                     $.getScript( "https://maps.googleapis.com/maps/api/js?key=AIzaSyBPaV2vJO0JOul9Qs4Oi0fpzCEFW4oecfg&libraries=places&callback=runApp", function( data, textStatus, jqxhr ) {
                       runApp();
-                      console.log( data ); // Data returned
-                      console.log( textStatus ); // Success
-                      console.log( jqxhr.status ); // 200
-                      console.log( "Load was performed." );
+                      console.log( "Loading the map was performed." );
                     });
                   }
                 })

@@ -32,7 +32,7 @@ h1 {
 }
 
 .activeEvent {
-    background: rgba(224, 71, 76, 1) !important;
+    background: rgba(224, 71, 76, .75) !important;
 }
 
 .reappear{
