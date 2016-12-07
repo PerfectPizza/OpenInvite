@@ -6,6 +6,7 @@
  var app = express();
  var bodyParser = require('body-parser')
  var connection = require('../knexfile.js');
+ // var Promise = require("bluebird");
 //knexfile();
 // Serves up a browserified version of our index, with access to any of it's dependencies
 // ...in theory
@@ -43,53 +44,26 @@ app.use (bodyParser.json());
     res.sendFile(path.join(__dirname, '../client/facebookLogin.html'));
  });
 
- app.get('/events', function(req,res){
-  var now = new Date().toISOString().slice(0, 19).replace('T', ' ');
-  var fourtyEightHours = new Date(+new Date + 1.728e8).toISOString().slice(0, 19).replace('T', ' ');
-
-    knex.select('*').from('events').where('end_time', '>', now).andWhere('end_time', '<', fourtyEightHours)
-    .then(function(data){
-        res.json(data);
-      }).catch(function(err){
-        console.log(err);
-      });
-  });
-
  app.post("/user/login", function(req, res) {
-  var now = new Date().toISOString().slice(0, 19).replace('T', ' ');
-  var fourtyEightHours = new Date(+new Date + 1.728e8).toISOString().slice(0, 19).replace('T', ' ');
-  // var friends = req.body.friends.map( (friend) => friend.id)
-  // console.log(req.body);
-  var result = {}
+  //{id: , name: , photo: , email:}
    knex.select('*').from('users').where('id', req.body.id)
    .then(function(data){
     // console.log('hello data', data.length)
     if(data.length === 0){
       // console.log(req.body);
-      knex.insert(req.body).into('users')
+      knex.insert(req.body.user).into('users')
       .then( console.log('new user added!') )
       }
    })
-   .then(function(){
-    knex.select('*').from('events').where('end_time', '>', now).andWhere('end_time', '<', fourtyEightHours)
-   .then(function(data){
-    result.allevents = data;
-    result.events_created = data.filter(function(x){return x.creator_id === req.body.id})
-                                .map(function(y){return y.id});
-    knex.select('event_id').from('events_users').where('user_id', req.body.id)
-    .then(function(events_attending){
-      result.events_attending = events_attending;
-      res.json(result);
-      })
-    })
-  })
+   .then(retreiveAll(req.body.id,res))
 });
 
+//
 app.post("/events/rsvp", function(req, res) {
   //takes request body
   //{user_id: 1234, event_id:6789}
   knex.insert(req.body).into('events_users')
-  .then(res.send('rsvped to event'))
+  .then(retreiveAll(req.body.user_id, res))
   });
 
 app.post("/events/attendance", function(req, res) {
@@ -103,28 +77,26 @@ app.post("/events/unrsvp", function(req, res) {
   //takes request body
   //{user_id: 1234, event_id:}
   knex('events_users').where(req.body).del()
-  .then(res.send('unrsvped to event'))
+  .then(retreiveAll(req.body.user_id, res))
   });
 
 app.post("/events/update", function(req, res){
+  //{user_id: , event: {}}
   console.log("request body", req.body);
-  knex('events').where('id', req.body.id).update(req.body)
-  .then(res.send('updated event'))
+  knex('events').where('id', req.body.event.id).update(req.body.event)
+  .then(retreiveAll(req.body.user_id, res))
   });
 
  app.post("/events/new", function(req, res) {
-  //will send back event id
-  knex.insert(req.body).into('events').returning('id')
-  .then(function(data){
-    // console.log('new row', data);
-    // res.json(data);
-    })
-
+  //{user_id:  , event: {}}
+  knex.insert(req.body.event).into('events')
+  .then(retreiveAll(req.body.user_id, res))
   });
 
  app.post("/events/remove", function(req, res) {
-  knex('events').where('id', req.body.id).del()
-  .then(res.send('deleted event!'))
+  // {event_id: , user_id:}
+  knex('events').where('id', req.body.event_id).del()
+  .then(retreiveAll(req.body.user_id))
   });
 
   // app.get("/events", function(req, res) {
@@ -139,6 +111,35 @@ app.post("/events/update", function(req, res){
   // });
 
  var port = process.env.PORT || 5000;
+
+
  app.listen(port, function() {
    console.log("Listening on " + port);
  });
+
+var retreiveAll = function(userid, res){
+    var result = {};
+    var now = new Date().toISOString().slice(0, 19).replace('T', ' ');
+    var fourtyEightHours = new Date(+new Date + 1.728e8).toISOString().slice(0, 19).replace('T', ' ');
+    knex.select('*').from('events').where('end_time', '>', now).andWhere('end_time', '<', fourtyEightHours)
+    .then(function(data){
+
+    result.allevents = data;
+    result.events_created = data.filter(function(x){return x.creator_id === userid ;})
+                                .map(function(y){return y.id});
+    knex.select('event_id').from('events_users').where('user_id', userid)
+    .then(function(events_attending){
+      result.events_attending = events_attending;
+      res.json(result);
+      })
+    })
+  }
+
+
+
+
+
+
+
+
+
