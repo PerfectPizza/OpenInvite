@@ -115,17 +115,14 @@ PUT THE DATA IN TO THE STATE WHERE IT NEEDS TO GO
 
       FB.getLoginStatus(function(response) {
         console.log("response from getLoginStatus: ", response);
-        if (response.status === 'connected') {
-          console.log('already connected to FB API');
-          //start spinner
-          //add a message 'fetching friends and events'
-          FB.api(
+        if (response.status === 'connected') { //already logged in to FB
+          FB.api( //facebook handles its own API calls
             '/me',
             'GET',
             {"fields":"id,name,email,friends"},
             function(response) {
-              //strangely not getting emails
-              //add a message 'almost there'
+              window.user = response;
+              //strangely not getting emails back in this response
               console.log("response from API GET: ", response);
                 $.ajax({
                   type: "POST",
@@ -136,7 +133,7 @@ PUT THE DATA IN TO THE STATE WHERE IT NEEDS TO GO
                     $('.login, .carousel').fadeOut();
                     $('body').css({'backgroundColor':'white'})
                     console.log("response from user/login POST", responseUser)
-                    window.currentUserEvents = responseUser;
+                    window.userEvents = responseUser;
                     $.getScript( "https://maps.googleapis.com/maps/api/js?key=AIzaSyBPaV2vJO0JOul9Qs4Oi0fpzCEFW4oecfg&libraries=places&callback=runApp", function( data, textStatus, jqxhr ) {
                       runApp();
                       console.log( data ); // Data returned
