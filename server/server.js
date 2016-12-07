@@ -1,12 +1,11 @@
- //TODO: FILTRATION BEFORE SENDING BACK EVENTS
-
- var express = require('express');
- var browserify = require('browserify-middleware');
- var path = require('path');
- var app = express();
- var bodyParser = require('body-parser')
- var connection = require('../knexfile.js');
- // var Promise = require("bluebird");
+//TODO: FILTRATION BEFORE SENDING BACK EVENTS
+var express = require('express');
+var browserify = require('browserify-middleware');
+var path = require('path');
+var app = express();
+var bodyParser = require('body-parser')
+var connection = require('../knexfile.js');
+// var Promise = require("bluebird");
 //knexfile();
 // Serves up a browserified version of our index, with access to any of it's dependencies
 // ...in theory
@@ -54,9 +53,9 @@ app.use (bodyParser.json());
    .then(function(data){
     // console.log('hello data', data.length)
     if(data.length === 0){
-      // console.log(req.body);
+      console.log(req.body);
       knex.insert(req.body.user).into('users')
-      .then( console.log('new user added!') )
+      .then( )
       }
    })
    .then(retreiveAll(req.body.id,res))
@@ -123,11 +122,11 @@ app.post("/events/update", function(req, res){
 
 var retreiveAll = function(userid, res){
     var result = {};
-    var now = new Date().toISOString().slice(0, 19).replace('T', ' ');
-    var fourtyEightHours = new Date(+new Date + 1.728e8).toISOString().slice(0, 19).replace('T', ' ');
+    var now = new Date(+new Date -2.16e+7).toISOString().slice(0, 19).replace('T', ' ');
+    var fourtyEightHours = new Date(+new Date + 1.728e8 -2.16e+7).toISOString().slice(0, 19).replace('T', ' ');
     knex.select('*').from('events').where('end_time', '>', now).andWhere('end_time', '<', fourtyEightHours)
     .then(function(data){
-
+      console.log("result from query", data)
     result.allevents = data;
     result.events_created = data.filter(function(x){return x.creator_id === userid ;})
                                 .map(function(y){return y.id});

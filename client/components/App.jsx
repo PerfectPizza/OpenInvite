@@ -65,7 +65,7 @@ class Map extends React.Component {
 
 
 function EventList (props) {
-var attendance; var counter;
+var attendance;
     return (
       <div className="eventlist">
       <CreateEventForm />
