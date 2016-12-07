@@ -12,17 +12,14 @@ var connection = require('../knexfile.js');
 
 // Still need a database conneciton
 var knex = require('knex')({
-  production: {
-    client: 'pg',
+  client: 'mysql',
     connection: {
-      host:'ec2-54-247-76-24.eu-west-1.compute.amazonaws.com',
-      database:'da2e4sh7knvhts',
-      user:'piemlflqgregxw',
-      password:'j26DtKPrrSNIlRyC_1C3i3gdVR',
-      ssl:true
-    },
-    searchPath: 'knex,public'
-  }
+      host: '127.0.0.1',
+      user: 'root',
+      password: '',
+      database: 'db',
+      charset: 'utf8'
+    }
 });
 
 
@@ -38,8 +35,7 @@ app.use (bodyParser.json());
   )
 
  app.get('/', function(req,res){
-   //browserify(path.join(__dirname, '..', '/client/index.js'))
-    res.send(path.join(__dirname, '../client/index.html'));
+    res.redirect('/facebookLogin');
    });
 
  app.get('/facebookLogin', function(req, res){
@@ -90,6 +86,7 @@ app.post("/events/update", function(req, res){
   });
 
  app.post("/events/new", function(req, res) {
+   console.log(req.body);
   //{user_id:  , event: {}}
   knex.insert(req.body.event).into('events')
   .then(retreiveAll(req.body.user_id, res))
@@ -123,7 +120,7 @@ var retreiveAll = function(userid, res){
     var result = {};
     var now = new Date(+new Date -2.16e+7).toISOString().slice(0, 19).replace('T', ' ');
     var fourtyEightHours = new Date(+new Date + 1.728e8 -2.16e+7).toISOString().slice(0, 19).replace('T', ' ');
-    knex.select('*').from('events').where('end_time', '>', now).andWhere('end_time', '<', fourtyEightHours)
+    knex.select('*').from('events').where('end_time', '>', now).andWhere('end_time', '<', fourtyEightHours).orderBy('created_at', 'desc')
     .then(function(data){
       console.log("result from query", data)
     result.allevents = data;
