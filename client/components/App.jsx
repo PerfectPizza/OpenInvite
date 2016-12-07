@@ -1,13 +1,16 @@
-window.marker = {}
+window.markers = []
 
 class App extends React.Component {
   constructor(){
     super()
     this.state = {
       events: window.events,
-      users: window.users,
-      map: null
+      users: window.users
     }
+  }
+
+  updateApp(eventsArr) {
+    this.setState({events:eventsArr});
   }
 
   render(){
@@ -23,7 +26,7 @@ class App extends React.Component {
             </ReactBootstrap.Col>
             {/* The column where the events are located*/}
             <ReactBootstrap.Col md={4}>
-              <EventList key="Events" users={this.state.users} events={this.state.events} />
+              <EventList key="Events" updateApp={this.updateApp.bind(this)} users={this.state.users} events={this.state.events} />
             </ReactBootstrap.Col>
           </ReactBootstrap.Row>
         </ReactBootstrap.Grid>
@@ -31,18 +34,6 @@ class App extends React.Component {
     )
   }
 
-}
-
-function NavBar () {
-  return (
-    <div>
-      <ReactBootstrap.Nav bsStyle="pills" justified>
-        <ReactBootstrap.NavItem eventKey={1}>NavItem 1 content</ReactBootstrap.NavItem>
-        <ReactBootstrap.NavItem eventKey={2}>NavItem 2 content</ReactBootstrap.NavItem>
-        <ReactBootstrap.NavItem eventKey={3}>NavItem 3 content</ReactBootstrap.NavItem>
-      </ReactBootstrap.Nav>
-    </div>
-  )
 }
 
 class Map extends React.Component {
@@ -80,7 +71,7 @@ function EventList (props) {
         {
           props.events.map(function(event){
             return (
-              <Event users={props.users} event={event} />
+              <Event updateApp={props.updateApp} users={props.users} event={event} />
             )
           })
         }
@@ -108,26 +99,22 @@ class Event extends React.Component {
 componentDidMount () {
   //set current event's gps coordinates
   var gpsCoords = new google.maps.LatLng(this.state.latitude, this.state.longitude);
-<<<<<<< HEAD
 
     //set marker state to a new Google Maps Marker (pin)
-
     var marker = new google.maps.Marker({
-=======
-    
-    //set marker state to a new Google Maps Marker (pin)
-    this.setState({marker: new google.maps.Marker({
->>>>>>> Markers rendering and marker click handler linked to corresponding Event in EventList
         id: this.state.id,
         position: gpsCoords,
         title: this.state.description,
         map: window.map
     })
-<<<<<<< HEAD
 
+
+    window.markers.push(marker)
     this.setState({marker: marker})
 
     $('div #' + this.state.id).on('click', function() {
+          for(let marker of window.markers){marker.setAnimation(null)}
+
           marker.setAnimation(google.maps.Animation.BOUNCE)
 
           map.setCenter(marker.getPosition())
@@ -161,11 +148,14 @@ componentDidMount () {
         $('#' + this.id).addClass('activeEvent');
       })
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 
 
 =======
 >>>>>>> Markers rendering and marker click handler linked to corresponding Event in EventList
+=======
+>>>>>>> Fix pin bounce / Add updateApp function
     }
 
     return (
