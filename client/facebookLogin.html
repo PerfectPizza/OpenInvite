@@ -43,6 +43,7 @@ PUT THE DATA IN TO THE STATE WHERE IT NEEDS TO GO
       document.body.appendChild(js);
     }
     </script>
+
 </head>
 
 <body>
@@ -101,6 +102,14 @@ PUT THE DATA IN TO THE STATE WHERE IT NEEDS TO GO
     var appId = '1128845777235850';
     var siteRoot = 'arileofrankel.com';
 
+function status_change_callback(response){
+  console.log("auth_response_change", response)
+        if (response.status === 'connected') { //already logged in to FB
+          cascadeOfInformation()
+          }
+        }
+
+
 function cascadeOfInformation () {
         FB.api( //facebook handles its own API calls
             '/me',
@@ -124,7 +133,6 @@ function cascadeOfInformation () {
                     $('body').css({'backgroundColor':'white'})
                     console.log("response from user/login POST", responseUser)
                     window.userEvents = responseUser;
-                    // window.userEvents = responseUser.events_attending.concat(responseUser.events_created);
                     $.getScript( "https://maps.googleapis.com/maps/api/js?key=AIzaSyBPaV2vJO0JOul9Qs4Oi0fpzCEFW4oecfg&libraries=places&callback=runApp", function( data, textStatus, jqxhr ) {
                       runApp();
                       console.log( data ); // Data returned
@@ -132,44 +140,25 @@ function cascadeOfInformation () {
                       console.log( jqxhr.status ); // 200
                       console.log( "Load was performed." );
                     });
-                    // 'add a message 'ready.....''
-                    // console.log("response from /user/login post: ",responseUser);
                   }
                 })
             });
       }
-
     window.fbAsyncInit = function() {
       FB.init({
         appId      : '1128845777235850',
         version    : 'v2.8',
-          // Channel File
         status     : true,
         cookie     : true,
         oauth      : true,
         xfbml      : true
       });
-
-
-      FB.getLoginStatus(function(response) {
-        console.log("response from getLoginStatus: ", response);
-        if (response.status === 'connected') { //already logged in to FB
-          cascadeOfInformation();
-          }
-      });
-      FB.Event.subscribe('auth.authResponseChange', auth_response_change_callback);
+    FB.Event.subscribe('auth.statusChange', status_change_callback);
     };
 
-    var auth_response_change_callback = function(response) {
-      console.log("auth_response_change_callback");
-      console.log("response from getLoginStatus: ", response);
-        if (response.status === 'connected') { //already logged in to FB
-          cascadeOfInformation()
-          }
-    }
 
 
-  (function(d, s, id) {
+    (function(d, s, id) {
     var js, fjs = d.getElementsByTagName(s)[0];
     if (d.getElementById(id)) return;
     js = d.createElement(s); js.id = id;
@@ -177,29 +166,24 @@ function cascadeOfInformation () {
     fjs.parentNode.insertBefore(js, fjs);
   }(document, 'script', 'facebook-jssdk'));
 
-  </script>
+    </script>
 
 </body>
 
 <!--CREDITS:
 image 1: https://www.google.com/search?site=&tbm=isch&source=hp&biw=1278&bih=859&q=bar+friends&oq=bar+friends&gs_l=img.3..0l2j0i8i30k1l8.7589.9262.0.12660.15.11.1.0.0.0.172.1296.5j6.11.0....0...1ac.1.64.img..3.12.1294...0i19k1j0i5i30i19k1j0i30k1j0i5i30k1.KnBoFUQW9dM#imgrc=qk9oQ9gPAqMZoM%3A
-
 image 2: https://www.google.com/search?site=&tbm=isch&source=hp&biw=1278&bih=859&q=coffee+shop+friends&oq=coffee+shop+friends&gs_l=img.3..0j0i5i30k1l2j0i8i30k1l7.1942.4290.0.4414.21.15.1.4.4.0.143.1405.6j8.14.0....0...1ac.1.64.img..2.19.1412...0i10k1j0i30k1.45KHMC9CNLM#imgrc=ZzW2iiYIJJnSLM%3A
-
 image 3: https://www.google.com/search?site=&tbm=isch&source=hp&biw=1278&bih=859&q=friends+playing+soccer&oq=friends+playing+soccer&gs_l=img.3..0l2j0i5i30k1l2.905.3568.0.3647.22.17.0.5.5.0.155.1609.6j9.15.0....0...1ac.1.64.img..3.19.1488...0i8i30k1.lrJMOJlLZQA#imgrc=E2xyMX67tyCpxM%3A
 -->
 
 <!--additional facebook resources:
-
 <div class="friends" onclick=window.listfriends()></div>
-
 <div
   class="fb-like"
   data-share="true"
   data-width="450"
   data-show-faces="true">
 </div>
-
 -->
 
 </html>
