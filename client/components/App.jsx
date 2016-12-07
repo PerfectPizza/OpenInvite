@@ -164,7 +164,7 @@ componentDidMount () {
             }else{
               amPM = "PM"
             }
-            var compiledTime = "Date: " + month + "/" + day +"/" + year + "   Time: " + hour + ":" +minutes " " + amPM 
+            var compiledTime = "Date: " + month + "/" + day +"/" + year + "   Time: " + hour + ":" +minutes + " " + amPM 
             return compiledTime
           }    
           this.setState({ startTime: newTime(this.state.startTime)});
