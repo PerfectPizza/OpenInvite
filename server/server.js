@@ -11,18 +11,19 @@ var connection = require('../knexfile.js');
 // ...in theory
 
 // Still need a database conneciton
-var knex = require('knex')(
-  {
-    client: 'mysql',
+var knex = require('knex')({
+  production: {
+    client: 'pg',
     connection: {
-      host: '127.0.0.1',
-      user: 'root',
-      password: '',
-      database: 'db',
-      charset: 'utf8'
-    }
+      host:'ec2-54-247-76-24.eu-west-1.compute.amazonaws.com',
+      database:'da2e4sh7knvhts',
+      user:'piemlflqgregxw',
+      password:'j26DtKPrrSNIlRyC_1C3i3gdVR',
+      ssl:true
+    },
+    searchPath: 'knex,public'
   }
-);
+});
 
 
 

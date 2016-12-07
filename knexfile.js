@@ -1,9 +1,9 @@
 // Update with your config settings.
 
 module.exports = {
-
+  //the production route information works for sure ... unsure of dev
   development: {
-    client: 'mysql',
+    client: 'pg',
     connection: {
       host: '127.0.0.1',
       user: 'root',
@@ -12,6 +12,17 @@ module.exports = {
       charset: 'utf8'
     }
   },
+  production: {
+    client: 'pg',
+    connection: {
+      host:'ec2-54-247-76-24.eu-west-1.compute.amazonaws.com',
+      database:'da2e4sh7knvhts',
+      user:'piemlflqgregxw',
+      password:'j26DtKPrrSNIlRyC_1C3i3gdVR',
+      ssl:true
+    },
+    searchPath: 'knex,public'
+  }
 };
 
 // Steps to setting up a MySql server at a work station for db testing:
