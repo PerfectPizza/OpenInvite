@@ -12,15 +12,19 @@
 // ...in theory
 
 // Still need a database conneciton
-var knex = require('knex')({
+var knex = require('knex')(
+  {
     client: 'mysql',
     connection: {
-      host: process.env.DB_HOST,
-      user: process.env.DB_USER,
-      password: process.env.DB_PWD,
-      database: process.env.DB_NAME,
+      host: '127.0.0.1',
+      user: 'root',
+      password: '',
+      database: 'db',
       charset: 'utf8'
-    }});
+    }
+  }
+);
+
 
 
 // code from the express.static docs
