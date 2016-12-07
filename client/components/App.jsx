@@ -13,7 +13,6 @@ class App extends React.Component {
   render(){
     return (
       <div>
-      <NavBar key={'navbar'}/>
       {/* this a boostrap layout for the page */}
         <ReactBootstrap.Grid fluid>
           {/* A row for the map and events*/}
@@ -61,60 +60,6 @@ class Map extends React.Component {
             center: myLatlng
         }
         window.map = new google.maps.Map(document.getElementById('map'), mapOptions)
-        // map = window.map
-
-// ---------------------- BEGIN AUTOCOMPLETE SEARCHBAR TEST ------------------------------------------
-
-
-      // // Create the search box and link it to the UI element.
-      //  var input = document.getElementById('pac-input');
-
-      //   var autocomplete = new google.maps.places.Autocomplete(input);
-      //   autocomplete.bindTo('bounds', map);
-
-      //   map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
-
-      //   var infowindow = new google.maps.InfoWindow();
-      //   var marker = new google.maps.Marker({
-      //     map: map
-      //   });
-      //   marker.addListener('click', function() {
-      //     infowindow.open(map, marker);
-      //   });
-
-      //   autocomplete.addListener('place_changed', function() {
-      //     infowindow.close();
-      //     var place = autocomplete.getPlace();
-      //     if (!place.geometry) {
-      //       return;
-      //     }
-
-      //     if (place.geometry.viewport) {
-      //       map.fitBounds(place.geometry.viewport);
-      //     } else {
-      //       map.setCenter(place.geometry.location);
-      //       map.setZoom(17);
-      //     }
-
-      //     // Set the position of the marker using the place ID and location.
-      //     marker.setPlace({
-      //       placeId: place.place_id,
-      //       location: place.geometry.location
-      //     });
-      //     marker.setVisible(true);
-
-      //     //Access data on selected location
-      //     console.log("Place Name:", place.name)
-      //     console.log("PLACE ID:", place.place_id)
-      //     console.log("Place Location:", place.geometry.location)
-      //     console.log("Place Latitude:", place.geometry.location.lat())
-      //     console.log("Place Longitude:", place.geometry.location.lng())
-      //     console.log("Formatted Address:", place.formatted_address)
-
-      //   });
-
-// ---------------------- END SEARCHBAR AUTOCOMPLETE TEST --------------------------------------
-
 }
 
   render() {
@@ -176,8 +121,6 @@ componentDidMount () {
     this.setState({marker: marker})
 
     $('div #' + this.state.id).on('click', function() {
-        console.log("THIS IS CLICKED", this)
-          console.log("Marker? ", marker)
           marker.setAnimation(google.maps.Animation.BOUNCE)
 
           map.setCenter(marker.getPosition())
@@ -257,7 +200,6 @@ const CreateEventForm = React.createClass({
             return;
           }
           $('.pac-container').hide()
-          console.log("place.geometry.viewport", place.geometry.viewport)
             map.setCenter(place.geometry.location);
             map.setZoom(13);
 
@@ -268,14 +210,13 @@ const CreateEventForm = React.createClass({
           });
           marker.setVisible(true);
 
-          //Access data on selected location
-          console.log("Place Name:", place.name)
-          console.log("Place ID:", place.place_id)
-          console.log("Place Location:", place.geometry.location)
-          console.log("Place Latitude:", place.geometry.location.lat())
-          console.log("Place Longitude:", place.geometry.location.lng())
-          console.log("Formatted Address:", place.formatted_address)
-
+          //Access data on selected location and put in on the window
+          window.place = {
+            name: place.name,
+            latitude: place.geometry.location.lat(),
+            longitude: place.geometry.location.lng(),
+            address: place.formatted_address
+          }
         });
 },
 
@@ -287,6 +228,32 @@ const CreateEventForm = React.createClass({
   open() {
     this.setState({ showModal: true });
     $('.pac-container').hide()
+  },
+
+  closeAndPost() {
+    this.setState({ showModal: false});
+    var $form = $('#createEventForm')
+    var eventObj = {
+      address: $form.find('input[name="address"]').val(), //this is undefined
+      latitude: window.place.latitude,
+      longitude: window.place.longitude,
+      location_name: window.place.name,
+      start_time: $form.find('input[name="start_time"]').val(),
+      end_time: $form.find('input[name="end_time"]').val(),
+      creator_id: window.user.id,
+      description: $form.find('textarea[name="description"]').val(),
+      title: $form.find('input[name="title"]').val(),
+      cap: $form.find('input[name="cap"]').val(),
+    };
+    $.ajax({
+      type: "POST",
+      url: 'events/new',
+      data: JSON.stringify(eventObj),
+      contentType: 'application/json',
+      success: function(postResponse){
+        console.log(postResponse);
+      },
+    });
   },
 
   render() {
@@ -316,30 +283,37 @@ const CreateEventForm = React.createClass({
             <div class="form-group">
               <label for="name" class="cols-sm-2 control-label">Event Title</label>
               <div class="cols-sm-10">
-                  <input type="text" class="form-control" name="eventTitle" id="eventTitle"  placeholder="what's it called"/>
+                  <input type="text" class="form-control" name="title" id="eventTitle"  placeholder="what's it called"/>
               </div>
             </div>
 
             <div class="form-group">
               <label for="description" class="cols-sm-2 control-label">Event Description</label>
               <div class="cols-sm-10">
-                  <textarea class="form-control" name="eventDesc" id="eventDesc"  placeholder="what's happening"/>
+                  <textarea class="form-control" name="description" id="description"  placeholder="what's happening"/>
               </div>
             </div>
 
             <div class="form-group">
-              <label for="startTime" class="cols-sm-2 control-label">Start Time</label>
+              <label for="description" class="cols-sm-2 control-label">Start Time</label>
               <div class="cols-sm-10">
                   <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
-                  <input type="datetime-local" class="form-control" name="startTime" id="startTime"  placeholder="what's happening"/>
+                  <input type="datetime-local" class="form-control" name="start_time" id="startTime"  placeholder="what's happening"/>
               </div>
             </div>
 
             <div class="form-group">
-              <label for="endTime" class="cols-sm-2 control-label">End Time</label>
+              <label for="description" class="cols-sm-2 control-label">End Time</label>
               <div class="cols-sm-10">
                   <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
-                  <input type="datetime-local" class="form-control" name="endTime" id="endTime"  placeholder="what's happening"/>
+                  <input type="datetime-local" class="form-control" name="end_time" id="endTime"  placeholder="what's happening" max={/*48 hours from now: */new Date(+new Date + 1.728e8).toISOString().slice(0, 19).replace('T', ' ').split(' ')[0]}/>
+                </div>
+            </div>
+
+            <div class="form-group">
+              <label for="location" class="cols-sm-2 control-label">Event Size</label>
+              <div class="cols-sm-1">
+                  <input type="number" name="cap" id="cap"/>
                 </div>
             </div>
 
@@ -350,15 +324,14 @@ const CreateEventForm = React.createClass({
                   <div class="col-sm-10" style={{width: "46vw", height: "40vh"}} id="createEventMap"></div>
                 </div>
             </div>
-            
-            
+
 
            <div class="form-group">
               <div class="col-sm-offset-2 col-sm-10">
               <ReactBootstrap.Button md={4}
                   bsStyle="primary btn-block"
                   bsSize="large"
-                  onClick={this.close}
+                  onClick={this.closeAndPost}
                 >Create Your Human</ReactBootstrap.Button>
               </div>
             </div>

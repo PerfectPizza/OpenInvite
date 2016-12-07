@@ -36,7 +36,7 @@ app.use (bodyParser.json());
    //browserify(path.join(__dirname, '..', '/client/index.js'))
     res.send(path.join(__dirname, '../client/index.html'));
    });
- 
+
 
 
  app.get('/facebookLogin', function(req, res){
@@ -116,8 +116,8 @@ app.post("/events/update", function(req, res){
   //will send back event id
   knex.insert(req.body).into('events').returning('id')
   .then(function(data){
-    console.log('new row', data);
-    res.json(data);
+    // console.log('new row', data);
+    // res.json(data);
     })
 
   });
