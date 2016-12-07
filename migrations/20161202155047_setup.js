@@ -13,8 +13,8 @@ exports.up = (knex, Promise) => Promise.all([
     table.increments('id');
     table.timestamp('created_at');
     table.string('address');
-    table.integer('latitude');
-    table.integer('longitude'); //string?
+    table.string('latitude');
+    table.string('longitude');
     table.string('location_name');
     table.dateTime('start_time');
     table.dateTime('end_time');
@@ -23,7 +23,7 @@ exports.up = (knex, Promise) => Promise.all([
     table.string('title');
     table.integer('cap');
   }),
-  
+
   knex.schema.createTableIfNotExists('events_users', table => {
     //table.increments('id').primary(); //replace increments with uuid
     //table.uuid('id'); //.primary();

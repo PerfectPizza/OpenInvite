@@ -69,13 +69,34 @@ function EventList (props) {
       <div className="eventlist">
       <CreateEventForm />
         {
-          props.events.map(function(event){
-            return (
-              <Event updateApp={props.updateApp} users={props.users} event={event} />
-            )
-          })
-        }
+          props.events.allevents.map(function(event){
+            //Order matters here so that only one of the three attendance states is reached:
+            //1) check if the current user is the creator of the event.
+            //2) check if the current user is a friend of the creator of the event.
+            //3) Finally, check if the current user is attending the event, which is only
+            //possible if the user is a friend of the event creator
+            if(event.creator_id === window.user.id){
+              attendance = "creator";
+            }
+            else {
+              window.user.friends.data.forEach(function(friend){
+                if(event.creator_id === friend.id){
+                  attendance = "friend"
+                }
+              })
+              window.userEvents.forEach(function(eventID){
+                if(eventID === event.id){
+                  attendance = "attendee"
+                }
+              })
+            }
 
+            return (
+              <Event users={props.users} event={event} attendance={attendance} />
+            )
+
+            })
+        }
       </div>
     )
 }
@@ -84,15 +105,16 @@ class Event extends React.Component {
   constructor(props){
     super(props)
     this.state = {
-      creator: props.event.creator,
+      creator: window.friends[props.event.creator_id] || window.user.name,
       id: props.event.id,
       description: props.event.description,
-      startTime: props.event.startTime,
-      endTime: props.event.endTime,
-      latitude: props.event.lat,
-      longitude: props.event.long,
-      users: props.users,
-      marker: null
+      startTime: props.event.start_time,
+      endTime: props.event.end_time,
+      latitude: Number(props.event.latitude),
+      longitude: Number(props.event.longitude),
+      users: window.users,
+      marker: null,
+      attendance: props.attendance,
     }
   }
 
@@ -145,6 +167,7 @@ componentDidMount () {
 
       <div className="event" id={this.state.id}>
         <div>
+        <p className="attendance">attendance: {this.state.attendance}</p>
         <p className="eventText">Host: {this.state.users[this.state.creator].name}</p>
         <p className="eventText">Start Time: {this.state.startTime}  End Time: {this.state.endTime}</p>
         <p className="eventText">Description: {this.state.description}</p>
@@ -228,9 +251,9 @@ const CreateEventForm = React.createClass({
     this.setState({ showModal: false});
     var $form = $('#createEventForm')
     var eventObj = {
-      address: $form.find('input[name="address"]').val(), //this is undefined
-      latitude: window.place.latitude,
-      longitude: window.place.longitude,
+      address: window.place.address,
+      latitude: window.place.latitude.toString(),
+      longitude: window.place.longitude.toString(),
       location_name: window.place.name,
       start_time: $form.find('input[name="start_time"]').val(),
       end_time: $form.find('input[name="end_time"]').val(),
@@ -242,7 +265,7 @@ const CreateEventForm = React.createClass({
     $.ajax({
       type: "POST",
       url: 'events/new',
-      data: JSON.stringify(eventObj),
+      data: JSON.stringify({user_id: window.user.id,event: eventObj}),
       contentType: 'application/json',
       success: function(postResponse){
         console.log(postResponse);
@@ -352,12 +375,12 @@ const EventAttendanceForm = React.createClass({
              user: window.user
            }
    // })
-    
+
   },
 
   attendChange(){
     this.setState({attending: !(this.state.attending)})
-    
+
   },
 
   handleSubmit(e){
@@ -372,12 +395,12 @@ const EventAttendanceForm = React.createClass({
             return axios.post('/events/attendants', reqData)
                   .then(function (response) {
         console.log("You are now attending", response);
-      }) 
+      })
     } else {
            return axios.delete('/events/attendants', reqData)
                   .then(function (response) {
         console.log("You are now attending", response);
-      }) 
+      })
     }
       // $.ajax({
       //   type: reqType,
@@ -390,7 +413,7 @@ const EventAttendanceForm = React.createClass({
       return axios.delete('/events/attendants', reqData)
                   .then(function (response) {
         console.log("You are now attending", response);
-      })     
+      })
   },
 
   close() {
@@ -445,7 +468,7 @@ const EventAttendanceForm = React.createClass({
             <div class="attendingFriendList">
               <label for="name" class="cols-sm-2 control-label">Friends Who Are Going</label>
               <div class="cols-sm-10">
-            
+
                   <div>
                     {dummyFriends.map(function(friend){
                       //this.state.attending.map()
@@ -456,7 +479,7 @@ const EventAttendanceForm = React.createClass({
               </div>
             </div>
 
-            
+
             <div class="form-group">
               <div class="col-sm-offset-2 col-sm-10">
               <ReactBootstrap.Button md={4}
@@ -464,7 +487,7 @@ const EventAttendanceForm = React.createClass({
                   bsSize="large"
                   type="submit"
                   onClick={this.close}
-                >Attend Event                
+                >Attend Event
               </ReactBootstrap.Button>
               </div>
             </div>
@@ -517,7 +540,7 @@ const EventAttendanceForm = React.createClass({
             <div class="attendingFriendList">
               <label for="name" class="cols-sm-2 control-label">Friends Who Are Going</label>
               <div class="cols-sm-10">
-            
+
                   <div>
                     {dummyFriends.map(function(friend){
                       return <div>{friend}</div>
@@ -526,7 +549,7 @@ const EventAttendanceForm = React.createClass({
                   </div>
               </div>
             </div>
-            
+
             <div class="form-group">
               <div class="col-sm-offset-2 col-sm-10">
               <ReactBootstrap.Button md={4}
@@ -631,7 +654,7 @@ const EventAttendanceForm = React.createClass({
 
 
   }
-    
+
   }
 })
 
