@@ -17,6 +17,7 @@ h1 {
     margin: 0;
     height: 80vh;
     overflow: scroll;
+    margin-top: 1vh;
 }
 
 .event {
@@ -40,6 +41,7 @@ h1 {
 }
 
 .btn-btn-circle{
+  margin-top: 1vh;
   background: rgba(224, 71, 76, .75) !important;
   width: 30px;
   height: 30px;
@@ -51,11 +53,16 @@ h1 {
   margin-bottom: 10px;
   position: fixed;
   right:35vw;
-  z-index: 2;
+  z-index: 15;
+  color:white;
+}
+
+.btn-btn-circle:hover{
+    color:white;
 }
 
 .btn-primary{
-    background: rgba(122, 207, 214, 1)
+    background: rgba(122, 207, 214, .75)
 }
 /* ---------------- Searchbar/Autocomplete Styles --------------- */
 

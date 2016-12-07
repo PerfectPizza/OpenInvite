@@ -27,7 +27,7 @@ class App extends React.Component {
             </ReactBootstrap.Col>
             {/* The column where the events are located*/}
             <ReactBootstrap.Col md={4}>
-              <CreateEventForm updateApp={this.updateApp}/>
+              <CreateEventForm updateApp={this.updateApp.bind(this)}/>
               <EventList key="Events" updateApp={this.updateApp.bind(this)} users={this.state.users} events={this.state.events} />
             </ReactBootstrap.Col>
           </ReactBootstrap.Row>
@@ -158,6 +158,8 @@ componentDidMount () {
     if(this.state.marker) {
       this.state.marker.addListener('click', function() {
         //link each pin to its corresponding Event in the EventList
+        for(let marker of window.markers){marker.setAnimation(null)}
+          this.setAnimation(google.maps.Animation.BOUNCE)
         window.location.href = window.location.href.split('#')[0] + '#' + this.id;
         //reset activeEvent class assignments
         $('.event').removeClass('activeEvent');
@@ -181,8 +183,10 @@ componentDidMount () {
 }
 
 const CreateEventForm = React.createClass({
-  getInitialState() {
-    return { showModal: false };
+  getInitialState(props) {
+    return { showModal: false,
+      updateApp: this.props.updateApp
+     };
   },
 
   componentDidUpdate () {
@@ -269,10 +273,12 @@ const CreateEventForm = React.createClass({
       url: 'events/new',
       data: JSON.stringify({user_id: window.user.id,event: eventObj}),
       contentType: 'application/json',
-      success: function(postResponse){
+      success: (postResponse) => {
         console.log("post response", postResponse)
-        location.reload();
+        // this.state.updateApp(postResponse)
+        location.reload()
       },
+      error: (err) => console.log("ERROR", err),
     });
   },
 
@@ -342,7 +348,7 @@ const CreateEventForm = React.createClass({
               <label for="location" class="cols-sm-2 control-label">Location</label>
               <div class="cols-sm-10">
                   <input type="text" id="pac-input2" placeholder="Holiday Inn" autocomplete="on" style={{display: "block"}}/>
-                  <div class="col-sm-10" style={{width: "46vw", height: "40vh"}} id="createEventMap"></div>
+                  <div class="col-sm-10" style={{width: "100%", height: "40vh"}} id="createEventMap"></div>
                 </div>
             </div>
 
