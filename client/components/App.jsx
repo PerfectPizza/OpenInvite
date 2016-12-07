@@ -27,6 +27,7 @@ class App extends React.Component {
             </ReactBootstrap.Col>
             {/* The column where the events are located*/}
             <ReactBootstrap.Col md={4}>
+              <CreateEventForm updateApp={this.updateApp}/>
               <EventList key="Events" updateApp={this.updateApp.bind(this)} users={this.state.users} events={this.state.events} />
             </ReactBootstrap.Col>
           </ReactBootstrap.Row>
@@ -68,7 +69,7 @@ function EventList (props) {
 var attendance;
     return (
       <div className="eventlist">
-      <CreateEventForm updateApp={props.updateApp}/>
+
 
         {
           props.events.allevents.map(function(event){
@@ -276,8 +277,6 @@ const CreateEventForm = React.createClass({
   render() {
     return (
       <div>
-       <FacebookButton fb={FB}/>
-
         <ReactBootstrap.Button md={4}
           bsStyle="btn-circle"
           bsSize="large"
@@ -352,7 +351,7 @@ const CreateEventForm = React.createClass({
                   bsStyle="primary btn-block"
                   bsSize="large"
                   onClick={this.closeAndPost}
-                >Create Your Human</ReactBootstrap.Button>
+                >Publish</ReactBootstrap.Button>
               </div>
             </div>
 

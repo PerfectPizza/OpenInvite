@@ -35,6 +35,10 @@ h1 {
     background: rgba(224, 71, 76, 1) !important;
 }
 
+.reappear{
+    right:35vw;
+}
+
 .btn-btn-circle{
   background: rgba(224, 71, 76, .75) !important;
   width: 30px;
@@ -45,8 +49,8 @@ h1 {
   line-height: 1.428571429;
   border-radius: 15px;
   margin-bottom: 10px;
-  position: relative;
-  left:250px;
+  position: fixed;
+  right:35vw;
   z-index: 2;
 }
 

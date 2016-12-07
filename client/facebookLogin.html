@@ -25,13 +25,13 @@ PUT THE DATA IN TO THE STATE WHERE IT NEEDS TO GO
     <link rel="stylesheet" type="text/css" href="assets/styles/styles.css">
     <!--react scripts-->
     <script src="https://unpkg.com/react@15/dist/react.min.js"></script>
-  <script src="https://unpkg.com/react-dom@15/dist/react-dom.min.js"></script>
+    <script src="https://unpkg.com/react-dom@15/dist/react-dom.min.js"></script>
+    <!--bootstrap scripts-->
     <script src="../node_modules/react-bootstrap/dist/react-bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react-bootstrap/0.30.7/react-bootstrap.min.js"></script>
+    <!--dummy data-->
     <script src="testData/dummyMapData.js"></script>
 
-    <script type="text/javascript" src="http://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.4&appId=986622341380400"></script>
-    <script type="text/javascript" src="bundle.js"></script>
 
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -79,8 +79,8 @@ PUT THE DATA IN TO THE STATE WHERE IT NEEDS TO GO
       <div class="container">
         <div class="row">
           <div class="col-xs-8 login-content">
-            <h1>Open Invite</h1>
-            <h3>Invite everyone without inviting anyone</h3>
+            <h1 class="dissappear">Open Invite</h1>
+            <h3 class="dissappear">Invite everyone without inviting anyone</h3>
               <div id="fb-root"></div>
               <div class="fb-login-button" data-max-rows="4" data-size="large" data-show-faces="false" scope="user_friends" data-auto-logout-link="true"></div>
           </div>
@@ -109,9 +109,12 @@ PUT THE DATA IN TO THE STATE WHERE IT NEEDS TO GO
 
 function status_change_callback(response){
   console.log("auth_response_change", response)
-        if (response.status === 'connected') { //already logged in to FB
+        if (response.status === 'connected') { //logged in to FB
           cascadeOfInformation()
           }
+        else { //logged out of FB
+          location.reload();
+        }
         }
 
 
@@ -136,7 +139,9 @@ function cascadeOfInformation () {
                   success: function(responseUser){
                     $('.login, .carousel').fadeOut();
                     $('body').css({'backgroundColor':'white'});
-                    $('#fb-root').append('<fb:login-button>');
+                    $('.dissappear').css({'display':'none'})
+                    $('.login').fadeIn();
+                    $('.login').css({'display':'inline-block','position':'fixed', 'top':'2vh', 'right':'35vw', 'z-index':2});
                     (function(d, s, id) {
                       var js, fjs = d.getElementsByTagName(s)[0];
                       if (d.getElementById(id)) return;
