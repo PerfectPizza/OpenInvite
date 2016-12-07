@@ -369,16 +369,26 @@ const EventAttendanceForm = React.createClass({
         user: this.state.user,
         attending: this.state.attending}
     if(this.state.attending === false){
-      reqType =  '/POST'
+            return axios.post('/events/attendants', reqData)
+                  .then(function (response) {
+        console.log("You are now attending", response);
+      }) 
     } else {
-      reqType = '/DELETE'
+           return axios.delete('/events/attendants', reqData)
+                  .then(function (response) {
+        console.log("You are now attending", response);
+      }) 
     }
-      $.ajax({
-        type: reqType,
-        url: '/events/attendants',
-        data: reqData,
-        dataType:  'application/json'
-        }).then(function (response) {
+      // $.ajax({
+      //   type: reqType,
+      //   url: '/events/attendants',
+      //   data: reqData,
+      //   dataType:  'application/json'
+      //   }).done(function (response) {
+      //   console.log("You are now attending", response);
+      // })
+      return axios.delete('/events/attendants', reqData)
+                  .then(function (response) {
         console.log("You are now attending", response);
       })     
   },
