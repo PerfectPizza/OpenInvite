@@ -149,7 +149,27 @@ componentDidMount () {
 
 }
 
-
+  configureTimes(){
+      var start = this.state.startTime;
+      var end = this.state.endTime;
+          function newTime (time){
+            var hour = time.slice(11,13)
+            var minutes = time.slice(14,16)
+            var year = time.slice(0,4)
+            var month = time.slice(5,7)
+            var day = time.slice(8,10)
+            var amPM;
+            if(Number(hour) < 12){
+              amPM = "AM"
+            }else{
+              amPM = "PM"
+            }
+            var compiledTime = "Date: " + month + "/" + day +"/" + year + "   Time: " + hour + ":" +minutes + " " + amPM 
+            return compiledTime
+          }    
+          this.setState({ startTime: newTime(this.state.startTime)});
+          this.setState({ endTime: newTime(this.state.endTime)}); 
+    }
   render() {
 
     //if marker is already set to the state, then add click listener
@@ -164,6 +184,8 @@ componentDidMount () {
       })
     }
     //need to pass in user prop
+    configureTimes();
+
     return (
 
       <div className="event" id={this.state.id}>
