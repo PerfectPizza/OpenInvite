@@ -27,7 +27,6 @@ PUT THE DATA IN TO THE STATE WHERE IT NEEDS TO GO
     <script src="https://unpkg.com/react@15/dist/react.min.js"></script>
     <script src="https://unpkg.com/react-dom@15/dist/react-dom.min.js"></script>
     <!--bootstrap scripts-->
-    <script src="../node_modules/react-bootstrap/dist/react-bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react-bootstrap/0.30.7/react-bootstrap.min.js"></script>
     <!--dummy data-->
     <script src="testData/dummyMapData.js"></script>
@@ -137,6 +136,7 @@ function cascadeOfInformation () {
                   data: JSON.stringify({id: response.id, name: response.name, email: response.email}),
                   contentType: "application/json",
                   success: function(responseUser){
+                    console.log("this is happening")
                     $('.login, .carousel').fadeOut();
                     $('body').css({'backgroundColor':'white'});
                     $('.dissappear').css({'display':'none'})

@@ -3,15 +3,15 @@ window.markers = []
 class App extends React.Component {
   constructor(){
     super()
+    window.that = this;
     this.state = {
       events: window.userEvents,
       users: window.users,
-
     }
   }
 
-  updateApp(eventsArr) {
-    this.setState({events:eventsArr});
+  updateApp() {
+    this.setState({events:window.userEvents});
   }
 
   render(){
@@ -268,15 +268,16 @@ const CreateEventForm = React.createClass({
       title: $form.find('input[name="title"]').val(),
       cap: $form.find('input[name="cap"]').val(),
     };
+    window.userEvents.allevents.unshift(eventObj);
+    window.userEvents.events_created.unshift(eventObj);
+    this.props.updateApp.call(window.that)
     $.ajax({
       type: "POST",
       url: 'events/new',
       data: JSON.stringify({user_id: window.user.id,event: eventObj}),
       contentType: 'application/json',
       success: (postResponse) => {
-        console.log("post response", postResponse)
-        // this.state.updateApp(postResponse)
-        location.reload()
+        // this.props.updateApp(window.userEvents).call(window.that);
       },
       error: (err) => console.log("ERROR", err),
     });
@@ -411,20 +412,20 @@ class FacebookButton extends React.Component {
       });
    }
 
-   render() {
-      return (
-         <div>
-            <div
-               className="fb-login-button"
-               data-max-rows="1"
-               data-size="xlarge"
-               data-auto-logout-link="true"
-               >
-            </div>
-            <div>{this.state.message}</div>
-         </div>
-      );
-   }
+  render() {
+    return (
+      <div>
+        <div
+          className="fb-login-button"
+          data-max-rows="1"
+          data-size="xlarge"
+          data-auto-logout-link="true"
+        >
+        </div>
+        <div>{this.state.message}</div>
+      </div>
+    );
+  }
 };
 
 
