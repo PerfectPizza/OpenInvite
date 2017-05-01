@@ -13,13 +13,7 @@ var connection = require('../knexfile.js');
 // Still need a database conneciton
 var knex = require('knex')({
   client: 'mysql',
-    connection: {
-      host: '127.0.0.1',
-      user: 'root',
-      password: '',
-      database: 'db',
-      charset: 'utf8'
-    }
+  connection: 'mysql://siti6alui332ztmx:veqr0u69sdcmdcd8@tkck4yllxdrw0bhi.cbetxkdyhwsb.us-east-1.rds.amazonaws.com:3306/r55ow5h2tx9n3wss'
 });
 
 
