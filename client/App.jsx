@@ -106,13 +106,15 @@ var attendance;
 
 class Event extends React.Component {
   constructor(props){
+
     super(props)
     this.state = {
       creator: window.friends[props.event.creator_id] || window.user.name,
       id: props.event.id,
       description: props.event.description,
-      startTime: props.event.start_time.replace('T', ' ').replace('.', ' ').split(' ')[0]+' '+'2016-12-09T05:59:59.000Z'.replace('T', ' ').replace('.', ' ').split(' ')[1],
-      endTime: props.event.end_time.replace('T', ' ').replace('.', ' ').split(' ')[0]+' '+'2016-12-09T05:59:59.000Z'.replace('T', ' ').replace('.', ' ').split(' ')[1],
+      date: props.event.start_time.split('T')[0].replace(/-/g, ' '),
+      startTime: `${(new Date(props.event.start_time).getHours() + "0").slice(0,2)}:${(new Date(props.event.start_time).getMinutes() + "0").slice(0,2)}`,
+      endTime: `${(new Date(props.event.end_time).getHours() + "0").slice(0,2)}:${(new Date(props.event.end_time).getMinutes() + "0").slice(0,2)}`,
       latitude: Number(props.event.latitude),
       longitude: Number(props.event.longitude),
       users: window.users,
@@ -172,6 +174,7 @@ componentDidMount () {
 
        <div className="event" id={this.state.id}>
         <p className="eventText">Host: {this.state.creator}</p>
+        <p className="eventText">Date: {this.state.date}</p>
         <p className="eventText">Start Time: {this.state.startTime}</p>
         <p className="eventText"> End Time: {this.state.endTime}</p>
         <p className="eventText"> Location: {this.state.address}</p>
@@ -279,7 +282,7 @@ const CreateEventForm = React.createClass({
       success: (postResponse) => {
         // this.props.updateApp(window.userEvents).call(window.that);
       },
-      error: (err) => console.log("ERROR", err),
+      error: (err) => console.error("ERROR", err),
     });
   },
 
@@ -393,7 +396,6 @@ class FacebookButton extends React.Component {
    }
 
    onStatusChange(response) {
-      console.log( response );
       var self = this;
 
       if( response.status === "connected" ) {
