@@ -102,8 +102,6 @@ PUT THE DATA IN TO THE STATE WHERE IT NEEDS TO GO
 
     <!-- Facebook script -->
 <script>
-    var appId = '1128845777235850';
-    var siteRoot = 'arileofrankel.com';
 
 function status_change_callback(response){
         if (response.status === 'connected') { //logged in to FB
@@ -155,7 +153,7 @@ function cascadeOfInformation () {
       }
     window.fbAsyncInit = function() {
       FB.init({
-        appId      : '1128845777235850',
+        appId      : '653957974799791',
         version    : 'v2.8',
         status     : true,
         cookie     : true,
@@ -171,7 +169,7 @@ function cascadeOfInformation () {
     var js, fjs = d.getElementsByTagName(s)[0];
     if (d.getElementById(id)) return;
     js = d.createElement(s); js.id = id;
-    js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.8&appId=1128845777235850";
+    js.src = `//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.8&appId=653957974799791`;
     fjs.parentNode.insertBefore(js, fjs);
   }(document, 'script', 'facebook-jssdk'));
 
