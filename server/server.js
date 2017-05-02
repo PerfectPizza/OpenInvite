@@ -34,9 +34,7 @@ app.use(bodyParser.json());
   //{id: , name: , photo: , email:}
    knex.select('*').from('users').where('id', req.body.id)
    .then(function(data){
-    // console.log('hello data', data.length)
     if(data.length === 0){
-      console.log(req.body);
       knex.insert(req.body.user).into('users')
       .then( )
       }
@@ -68,13 +66,11 @@ app.post("/events/unrsvp", function(req, res) {
 
 app.post("/events/update", function(req, res){
   //{user_id: , event: {}}
-  console.log("request body", req.body);
   knex('events').where('id', req.body.event.id).update(req.body.event)
   .then(retreiveAll(req.body.user_id, res))
   });
 
  app.post("/events/new", function(req, res) {
-   console.log(req.body);
   //{user_id:  , event: {}}
   knex.insert(req.body.event).into('events')
   .then(retreiveAll(req.body.user_id, res))
@@ -110,7 +106,6 @@ var retreiveAll = function(userid, res){
     var fourtyEightHours = new Date(+new Date + 1.728e8 -2.16e+7).toISOString().slice(0, 19).replace('T', ' ');
     knex.select('*').from('events').where('end_time', '>', now).andWhere('end_time', '<', fourtyEightHours).orderBy('created_at', 'desc')
     .then(function(data){
-      console.log("result from query", data)
     result.allevents = data;
     result.events_created = data.filter(function(x){return x.creator_id === userid ;})
                                 .map(function(y){return y.id});
