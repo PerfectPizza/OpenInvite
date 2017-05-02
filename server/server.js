@@ -1,29 +1,23 @@
 //TODO: FILTRATION BEFORE SENDING BACK EVENTS
 var express = require('express');
+var app = express();
 var browserify = require('browserify-middleware');
 var path = require('path');
-var app = express();
 var bodyParser = require('body-parser')
-var connection = require('../knexfile.js');
-// var Promise = require("bluebird");
-//knexfile();
-// Serves up a browserified version of our index, with access to any of it's dependencies
-// ...in theory
+require('dotenv').config()
 
 // Still need a database conneciton
 var knex = require('knex')({
   client: 'mysql',
-  connection: 'mysql://siti6alui332ztmx:veqr0u69sdcmdcd8@tkck4yllxdrw0bhi.cbetxkdyhwsb.us-east-1.rds.amazonaws.com:3306/r55ow5h2tx9n3wss'
+  connection: process.env.JAWSDB_URL
 });
-
-
 
 // code from the express.static docs
 app.use(express.static(path.join(__dirname, '/../client/')))
-app.use (bodyParser.json());
+app.use(bodyParser.json());
 
  app.get('/app-bundle.js',
-    browserify('./client/components/App.jsx', {
+    browserify('./client/App.jsx', {
     transform: [ [ require('babelify'), { presets: ["es2015", "react"] } ] ]
   })
   )
@@ -127,12 +121,3 @@ var retreiveAll = function(userid, res){
       })
     })
   }
-
-
-
-
-
-
-
-
-
