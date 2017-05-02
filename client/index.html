@@ -19,8 +19,6 @@ PUT THE DATA IN TO THE STATE WHERE IT NEEDS TO GO
     <!-- Bootstrap Core CSS -->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- Landing Page CSS -->
-    <link href="assets/styles/full-slider.css" rel="stylesheet">
     <!--Main CSS-->
     <link rel="stylesheet" type="text/css" href="assets/styles.css">
     <!--react scripts-->
@@ -30,6 +28,7 @@ PUT THE DATA IN TO THE STATE WHERE IT NEEDS TO GO
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react-bootstrap/0.30.7/react-bootstrap.min.js"></script>
     <!--dummy data-->
     <!-- <script src="testData/dummyMapData.js"></script> -->
+    <!-- -->
 
 
 
@@ -107,7 +106,6 @@ PUT THE DATA IN TO THE STATE WHERE IT NEEDS TO GO
     var siteRoot = 'arileofrankel.com';
 
 function status_change_callback(response){
-  console.log("auth_response_change", response)
         if (response.status === 'connected') { //logged in to FB
           cascadeOfInformation()
           }
@@ -129,14 +127,12 @@ function cascadeOfInformation () {
                 window.friends[friend.id] = friend.name;
                 })
               //strangely not getting emails back in this response
-              console.log("response from API GET: ", response);
                 $.ajax({
                   type: "POST",
                   url: '/user/login',
                   data: JSON.stringify({id: response.id, name: response.name, email: response.email}),
                   contentType: "application/json",
                   success: function(responseUser){
-                    console.log("this is happening")
                     $('.login, .carousel').fadeOut();
                     $('body').css({'backgroundColor':'white'});
                     $('.dissappear').css({'display':'none'})
@@ -149,11 +145,9 @@ function cascadeOfInformation () {
                       js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.8&appId=1128845777235850";
                       fjs.parentNode.insertBefore(js, fjs);
                     }(document, 'script', 'facebook-jssdk'));
-                    console.log("response from user/login POST", responseUser)
                     window.userEvents = responseUser;
                     $.getScript( "https://maps.googleapis.com/maps/api/js?key=AIzaSyBPaV2vJO0JOul9Qs4Oi0fpzCEFW4oecfg&libraries=places&callback=runApp", function( data, textStatus, jqxhr ) {
                       runApp();
-                      console.log( "Loading the map was performed." );
                     });
                   }
                 })
