@@ -34,6 +34,21 @@ From within the root directory:
 npm install
 ```
 
-## Contributing
+## Contributing / Style-Guide
 
-See [CONTRIBUTING.md](https://github.com/unexpected-lion/ourglass/blob/master/contributing.md) for contribution guidelines.
+### Comments
+
+* Provide comments any time you are confident it will make reading your code easier.
+* A good comment is often less effective than a good variable name.
+
+* Do not include a `type=text/javascript"` attribute on script tags
+
+    ```html
+    <!-- good -->
+    <script src="a.js"></script>
+
+    <!-- bad -->
+    <script src="a.js" type="text/javascript"></script>
+    ```
+
+* This project utilizes the 'standard' ESLint module with some additional specs. See [.eslintrc.js](.eslintrc.js) for details

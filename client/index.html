@@ -1,60 +1,196 @@
 <!DOCTYPE html>
+<!--TODO:
+LOADING MESSAGES - JQUERY
+ASYNC REACT SCRIPT TAG INSERTION AFTER ALL THE DATA'S COLLECTED/GET RID OF THE LOADING PAGE DIVS AT THE SAME TIME
+PUT THE DATA IN TO THE STATE WHERE IT NEEDS TO GO
+-->
+
 <html lang="en">
+
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Open Invite</title>
-  <!-- original -->
-  <link rel="stylesheet" type="text/css" href="assets/styles/styles.css">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <script
-  src="https://code.jquery.com/jquery-3.1.1.slim.min.js"
-  integrity="sha256-/SIrNqv8h6QGKDuNoLGA4iret+kyesCkHGzVUUV0shc="
-  crossorigin="anonymous"></script>
 
-  <script src="https://unpkg.com/react@15/dist/react.min.js"></script>
-  <script src="https://unpkg.com/react-dom@15/dist/react-dom.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/react-bootstrap/0.30.7/react-bootstrap.min.js"></script>
-  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-  <!-- <script src="node_modules/react/dist/react.js"></script>
-  <script src="node_modules/react-dom/dist/react-dom.js"></script>
-  <script src="node_modules/react-bootstrap/dist/react-bootstrap.min.js"></script> -->
-  <!-- <script src="node_modules/lodash/lodash.js"></script> -->
-  <script>
-  $('#createEventForm').on('submit',function (event) {
-    event.preventDefault();
-    $.ajax({
-        url: '/events/new',
-        type: 'POST',
-        data : $('#createEventForm').serialize(),
-        success: function(json) {
-            alert('all done');
-        }
-    });
-  });
-  </script>
-</head>
-<body>
-  <h1 id="title">Open Invite</h1>
-  <div id="app"></div>
-  <script src="testData/dummyMapData.js"></script>
-  <script type="text/javascript">
-    //callback to queue React code to run after Google Map API is loaded
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
 
-    function runApp () {
+    <title>Open Invite</title>
+    <!-- Bootstrap Core CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+
+    <!--Main CSS-->
+    <link rel="stylesheet" type="text/css" href="assets/styles.css">
+    <!--react scripts-->
+    <script src="https://unpkg.com/react@15/dist/react.min.js"></script>
+    <script src="https://unpkg.com/react-dom@15/dist/react-dom.min.js"></script>
+    <!--bootstrap scripts-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react-bootstrap/0.30.7/react-bootstrap.min.js"></script>
+    <!--dummy data-->
+    <!-- <script src="testData/dummyMapData.js"></script> -->
+    <!-- -->
+
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <script>
+      function runApp () {
       var js = document.createElement('script');
       js.src = '/app-bundle.js'
       //js.src = 'assets/compiled/App.js';
       document.body.appendChild(js);
     }
+    </script>
 
-  </script>
-  <!-- <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBPaV2vJO0JOul9Qs4Oi0fpzCEFW4oecfg&libraries=places&callback=runApp"></script> -->
-  <!-- <script async defer src="assets/compiled/App.js"></script> -->
-  <script src="tools/tools.js"></script>
-  <!-- <script src="../compiled/client/components/Map.js"></script> -->
-  <!-- Example Script - compiled  -->
-  <!-- <script src="compiled/src/config/youtube.js"></script> -->
+</head>
+
+<body>
+<div id="app"></div>
+<!-- <div class='disappearing'> -->
+    <!-- Full Page Image Background Carousel Header -->
+    <div id="myCarousel" class="carousel carousel-fade">
+
+        <!-- Wrapper for Slides -->
+        <div class="carousel-inner">
+            <!-- Set background images using inline CSS below. -->
+
+            <div class="item active">
+                <div class="fill tint" style="background-image:url('assets/img/bar.png')"></div>
+            </div>
+
+            <div class="item">
+                <div class="fill tint" style="background-image:url('assets/img/coffee.png');"></div>
+            </div>
+
+            <div class="item">
+                <div class="fill tint" style="background-image: url('assets/img/soccer.png');"></div>
+            </div>
+        </div> <!--/wrapper-->
+    </div><!--/carousel-->
+
+     <div class="login">
+      <div class="container">
+        <div class="row">
+          <div class="col-xs-8 login-content">
+            <h1 class="dissappear">Open Invite</h1>
+            <h3 class="dissappear">Invite everyone without inviting anyone</h3>
+              <div id="fb-root"></div>
+              <div class="fb-login-button" data-max-rows="4" data-size="large" data-show-faces="false" scope="user_friends" data-auto-logout-link="true"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+<!-- <div class='content'> -->
+    <!-- jQuery -->
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.1.1.min.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <!-- Script to Activate the Carousel -->
+    <script>
+    $('.carousel').carousel({
+        pause: false, //don't pause on mouse hover
+        interval: 2000 //changes the speed
+    })
+    </script>
+
+    <!-- Facebook script -->
+<script>
+
+function status_change_callback(response){
+        if (response.status === 'connected') { //logged in to FB
+          cascadeOfInformation()
+          }
+        else { //logged out of FB
+          location.reload();
+        }
+        }
+
+
+function cascadeOfInformation () {
+        FB.api( //facebook handles its own API calls
+            '/me',
+            'GET',
+            {"fields":"id,name,email,friends"},
+            function(response) {
+              window.user = response;
+              window.friends = {};
+              window.user.friends.data.map( function(friend){
+                window.friends[friend.id] = friend.name;
+                })
+              //strangely not getting emails back in this response
+                $.ajax({
+                  type: "POST",
+                  url: '/user/login',
+                  data: JSON.stringify({id: response.id, name: response.name, email: response.email}),
+                  contentType: "application/json",
+                  success: function(responseUser){
+                    $('.login, .carousel').fadeOut();
+                    $('body').css({'backgroundColor':'white'});
+                    $('.dissappear').css({'display':'none'})
+                    $('.login').fadeIn();
+                    $('.login').css({'display':'inline-block','position':'fixed', 'top':'2vh', 'right':'35vw'});
+                    (function(d, s, id) {
+                      var js, fjs = d.getElementsByTagName(s)[0];
+                      if (d.getElementById(id)) return;
+                      js = d.createElement(s); js.id = id;
+                      js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.8&appId=1128845777235850";
+                      fjs.parentNode.insertBefore(js, fjs);
+                    }(document, 'script', 'facebook-jssdk'));
+                    window.userEvents = responseUser;
+                    $.getScript( "https://maps.googleapis.com/maps/api/js?key=AIzaSyBPaV2vJO0JOul9Qs4Oi0fpzCEFW4oecfg&libraries=places&callback=runApp", function( data, textStatus, jqxhr ) {
+                      runApp();
+                    });
+                  }
+                })
+            });
+      }
+    window.fbAsyncInit = function() {
+      FB.init({
+        appId      : '653957974799791',
+        version    : 'v2.8',
+        status     : true,
+        cookie     : true,
+        oauth      : true,
+        xfbml      : true
+      });
+    FB.Event.subscribe('auth.statusChange', status_change_callback);
+    };
+
+
+
+    (function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = `//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.8&appId=653957974799791`;
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));
+
+    </script>
 
 </body>
+
+<!--CREDITS:
+image 1: https://www.google.com/search?site=&tbm=isch&source=hp&biw=1278&bih=859&q=bar+friends&oq=bar+friends&gs_l=img.3..0l2j0i8i30k1l8.7589.9262.0.12660.15.11.1.0.0.0.172.1296.5j6.11.0....0...1ac.1.64.img..3.12.1294...0i19k1j0i5i30i19k1j0i30k1j0i5i30k1.KnBoFUQW9dM#imgrc=qk9oQ9gPAqMZoM%3A
+image 2: https://www.google.com/search?site=&tbm=isch&source=hp&biw=1278&bih=859&q=coffee+shop+friends&oq=coffee+shop+friends&gs_l=img.3..0j0i5i30k1l2j0i8i30k1l7.1942.4290.0.4414.21.15.1.4.4.0.143.1405.6j8.14.0....0...1ac.1.64.img..2.19.1412...0i10k1j0i30k1.45KHMC9CNLM#imgrc=ZzW2iiYIJJnSLM%3A
+image 3: https://www.google.com/search?site=&tbm=isch&source=hp&biw=1278&bih=859&q=friends+playing+soccer&oq=friends+playing+soccer&gs_l=img.3..0l2j0i5i30k1l2.905.3568.0.3647.22.17.0.5.5.0.155.1609.6j9.15.0....0...1ac.1.64.img..3.19.1488...0i8i30k1.lrJMOJlLZQA#imgrc=E2xyMX67tyCpxM%3A
+-->
+
+<!--additional facebook resources:
+<div class="friends" onclick=window.listfriends()></div>
+<div
+  class="fb-like"
+  data-share="true"
+  data-width="450"
+  data-show-faces="true">
+</div>
+-->
+
 </html>

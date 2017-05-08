@@ -9,3 +9,9 @@ compiled/
 
 ## DB Login / API keys ##
 .env
+
+## Map Practice
+map/
+
+## Test Data
+client/testData
